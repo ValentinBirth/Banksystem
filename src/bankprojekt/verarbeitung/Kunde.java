@@ -11,7 +11,7 @@ import java.util.Locale;
  * Kunde einer Bank
  * </p>
  * 
- * @author Dorothea Hubrich
+ * @author Birth
  * @version 1.0
  */
 public class Kunde implements Comparable<Kunde>{

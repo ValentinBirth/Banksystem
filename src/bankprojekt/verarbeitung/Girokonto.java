@@ -2,7 +2,7 @@ package bankprojekt.verarbeitung;
 
 /**
  * Ein Girokonto
- * @author Doro
+ * @author Birth
  *
  */
 public class Girokonto extends Konto implements Ueberweisungsfaehig{
@@ -20,7 +20,17 @@ public class Girokonto extends Konto implements Ueberweisungsfaehig{
 		super(Kunde.MUSTERMANN, 99887766);
 		this.dispo = 500;
 	}
-	
+
+	@Override
+	public void waehrungsWechsel(Waehrung neu) {
+		if (neu != getAktuelleWaehrung()){
+			double kontostandInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getKontostand());
+			double dispoInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getDispo());
+			setKontostand(neu.euroInWaehrungUmrechnen(kontostandInEuro));
+			setDispo(neu.euroInWaehrungUmrechnen(dispoInEuro));
+		}
+	}
+
 	/**
 	 * erzeugt ein Girokonto mit den angegebenen Werten
 	 * @param inhaber Kontoinhaber
@@ -96,8 +106,9 @@ public class Girokonto extends Konto implements Ueberweisungsfaehig{
 		if (betrag < 0 || Double.isNaN(betrag)) {
 			throw new IllegalArgumentException("Betrag ungültig");
 		}
-		if(this.isGesperrt())
+		if(this.isGesperrt()) {
 			throw new GesperrtException(this.getKontonummer());
+		}
 		if (getKontostand() - betrag >= - dispo)
 		{
 			setKontostand(getKontostand() - betrag);
@@ -105,6 +116,16 @@ public class Girokonto extends Konto implements Ueberweisungsfaehig{
 		}
 		else
 			return false;
+	}
+
+	@Override
+	public boolean abheben(double betrag, Waehrung w) throws GesperrtException {
+		if (betrag < 0 || Double.isNaN(betrag)) {
+			throw new IllegalArgumentException("Betrag ungültig");
+		}
+		double betragInEuro = w.waehrungInEuroUmrechnen(betrag);
+		double betragInKontoWaehrung = getAktuelleWaehrung().euroInWaehrungUmrechnen(betragInEuro);
+		return abheben(betragInKontoWaehrung);
 	}
 
 }

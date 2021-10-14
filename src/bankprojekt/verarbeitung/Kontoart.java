@@ -2,7 +2,7 @@ package bankprojekt.verarbeitung;
 
 /**
  * alle Kontoarten, die es jemals in meinem Bankprogramm geben wird
- * @author Admin
+ * @author Birth
  *
  */
 public enum Kontoart {

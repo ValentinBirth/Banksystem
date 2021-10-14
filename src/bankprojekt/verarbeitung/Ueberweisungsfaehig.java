@@ -4,7 +4,7 @@ package bankprojekt.verarbeitung;
  * Dieses Interface zeigt an, dass mit einem 
  * implementierenden Konto Überweisungen
  * durchgeführt werden können
- * @author Dorothea Hubrich
+ * @author Birth
  *
  */
 public interface Ueberweisungsfaehig {

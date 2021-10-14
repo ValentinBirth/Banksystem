@@ -2,7 +2,7 @@ package bankprojekt.verarbeitung;
 
 /**
  * stellt ein allgemeines Konto dar
- *@author ich
+ *@author Birth
  */
 public abstract class Konto implements Comparable<Konto>
 {
@@ -20,6 +20,11 @@ public abstract class Konto implements Comparable<Konto>
 	 * der aktuelle Kontostand
 	 */
 	private double kontostand;
+
+	/**
+	 * Art der Währung mit der das Konto arbeitet
+	 */
+	private Waehrung waehrung;
 
 	/**
 	 * setzt den aktuellen Kontostand
@@ -44,6 +49,7 @@ public abstract class Konto implements Comparable<Konto>
 	 * @throws IllegalArgumentException wenn der Inhaber null
 	 */
 	public Konto(Kunde inhaber, long kontonummer) {
+		this.waehrung = Waehrung.EUR;
 		if(inhaber == null) {
 			throw new IllegalArgumentException("Inhaber darf nicht null sein!");
 		}
@@ -102,6 +108,14 @@ public abstract class Konto implements Comparable<Konto>
 	}
 
 	/**
+	 * liefert die aktuelle Währung des Konto zurück
+	 * @return Waehrung
+	 */
+	public Waehrung getAktuelleWaehrung(){
+		return waehrung;
+	}
+
+	/**
 	 * liefert zurück, ob das Konto gesperrt ist oder nicht
 	 * @return true, wenn das Konto gesperrt ist
 	 */
@@ -121,6 +135,45 @@ public abstract class Konto implements Comparable<Konto>
 		}
 		setKontostand(getKontostand() + betrag);
 	}
+
+	/**
+	 * Erhöht den Kontostand um den eingezahlten Betrag einer spezifischen Währung.
+	 *
+	 * @param betrag double
+	 * @param w Waehrung
+	 * @throws IllegalArgumentException wenn der betrag negativ ist
+	 */
+	public void einzahlen(double betrag, Waehrung w) {
+		if (betrag < 0 || Double.isNaN(betrag)) {
+			throw new IllegalArgumentException("Falscher Betrag");
+		}
+		if(getAktuelleWaehrung() == w) {
+			setKontostand(getKontostand() + betrag);
+		}else{
+			double betragInEuro = w.waehrungInEuroUmrechnen(betrag);
+			switch (getAktuelleWaehrung()){
+
+				case EUR -> {
+					setKontostand(getKontostand() + betragInEuro);
+				}
+				case BGN -> {
+					setKontostand(getKontostand() * Waehrung.BGN.euroInWaehrungUmrechnen(betragInEuro));
+				}
+				case LTL -> {
+					setKontostand(getKontostand() * Waehrung.LTL.euroInWaehrungUmrechnen(betragInEuro));
+				}
+				case KM -> {
+					setKontostand(getKontostand() * Waehrung.KM.euroInWaehrungUmrechnen(betragInEuro));
+				}
+			}
+		}
+	}
+
+	/**
+	 * Wechselt die Währung des des aktuellen Kontos
+	 * @param neu Waherung
+	 */
+	public abstract void waehrungsWechsel(Waehrung neu);
 	
 	/**
 	 * Gibt eine Zeichenkettendarstellung der Kontodaten zurück.
@@ -147,6 +200,20 @@ public abstract class Konto implements Comparable<Konto>
 	 */
 	public abstract boolean abheben(double betrag) 
 								throws GesperrtException;
+
+	/**
+	 * Mit dieser Methode wird der geforderte Betrag in einer spezifischen Währung
+	 * vom Konto abgehoben, wenn es nicht gesperrt ist.
+	 *
+	 * @param betrag double
+	 * @param w Waehrung
+	 * @throws GesperrtException wenn das Konto gesperrt ist
+	 * @throws IllegalArgumentException wenn der betrag negativ ist
+	 * @return true, wenn die Abhebung geklappt hat,
+	 * 		   false, wenn sie abgelehnt wurde
+	 */
+	public abstract boolean abheben(double betrag, Waehrung w)
+			throws GesperrtException;
 	
 	/**
 	 * sperrt das Konto, Aktionen zum Schaden des Benutzers sind nicht mehr möglich.
@@ -194,7 +261,21 @@ public abstract class Konto implements Comparable<Konto>
 	 */
 	public String getKontostandFormatiert()
 	{
-		return String.format("%10.2f Euro" , this.getKontostand());
+		switch (getAktuelleWaehrung()) {
+
+			case BGN -> {
+				return String.format("%10.2f BGN" , this.getKontostand());
+			}
+			case LTL -> {
+				return String.format("%10.2f LTL" , this.getKontostand());
+			}
+			case KM -> {
+				return String.format("%10.2f KM" , this.getKontostand());
+			}
+			default -> {
+				return String.format("%10.2f Euro" , this.getKontostand());
+			}
+		}
 	}
 	
 	/**

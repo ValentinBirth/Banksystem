@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 /**
  * ein Sparbuch
- * @author Doro
+ * @author Birth
  *
  */
 public class Sparbuch extends Konto {
@@ -16,7 +16,7 @@ public class Sparbuch extends Konto {
 	/**
 	 * Monatlich erlaubter Gesamtbetrag für Abhebungen
 	 */
-	public static final double ABHEBESUMME = 2000;
+	public static final double ABHEBESUMMEEURO = 2000;
 	
 	/**
 	 * Betrag, der im aktuellen Monat bereits abgehoben wurde
@@ -32,6 +32,16 @@ public class Sparbuch extends Konto {
 	*/
 	public Sparbuch() {
 		zinssatz = 0.03;
+	}
+
+	@Override
+	public void waehrungsWechsel(Waehrung neu) {
+		if (neu != getAktuelleWaehrung()){
+			double kontostandInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getKontostand());
+			double bereitsAbgehobenInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(bereitsAbgehoben);
+			setKontostand(neu.euroInWaehrungUmrechnen(kontostandInEuro));
+			bereitsAbgehoben = neu.euroInWaehrungUmrechnen(bereitsAbgehobenInEuro);
+		}
 	}
 
 	/**
@@ -69,7 +79,7 @@ public class Sparbuch extends Konto {
 			this.bereitsAbgehoben = 0;
 		}
 		if (getKontostand() - betrag >= 0.50 && 
-				 bereitsAbgehoben + betrag <= Sparbuch.ABHEBESUMME)
+				 bereitsAbgehoben + betrag <= getAktuelleWaehrung().euroInWaehrungUmrechnen(Sparbuch.ABHEBESUMMEEURO))
 		{
 			setKontostand(getKontostand() - betrag);
 			bereitsAbgehoben += betrag;
@@ -78,6 +88,16 @@ public class Sparbuch extends Konto {
 		}
 		else
 			return false;
+	}
+
+	@Override
+	public boolean abheben(double betrag, Waehrung w) throws GesperrtException {
+		if (betrag < 0 || Double.isNaN(betrag)) {
+			throw new IllegalArgumentException("Betrag ungültig");
+		}
+		double betragInEuro = w.waehrungInEuroUmrechnen(betrag);
+		double betragInKontoWaehrung = getAktuelleWaehrung().euroInWaehrungUmrechnen(betragInEuro);
+		return abheben(betragInKontoWaehrung);
 	}
 
 }
