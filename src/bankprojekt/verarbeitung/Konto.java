@@ -44,8 +44,9 @@ public abstract class Konto implements Comparable<Konto>
 	 * @throws IllegalArgumentException wenn der Inhaber null
 	 */
 	public Konto(Kunde inhaber, long kontonummer) {
-		if(inhaber == null)
+		if(inhaber == null) {
 			throw new IllegalArgumentException("Inhaber darf nicht null sein!");
+		}
 		this.inhaber = inhaber;
 		this.nummer = kontonummer;
 		this.kontostand = 0;
@@ -74,10 +75,12 @@ public abstract class Konto implements Comparable<Konto>
 	 * @throws IllegalArgumentException wenn kinh null ist
 	 */
 	public final void setInhaber(Kunde kinh) throws GesperrtException{
-		if (kinh == null)
+		if (kinh == null) {
 			throw new IllegalArgumentException("Der Inhaber darf nicht null sein!");
-		if(this.gesperrt)
-			throw new GesperrtException(this.nummer);        
+		}
+		if(this.gesperrt) {
+			throw new GesperrtException(this.nummer);
+		}
 		this.inhaber = kinh;
 
 	}
@@ -209,10 +212,7 @@ public abstract class Konto implements Comparable<Konto>
 			return false;
 		if(this.getClass() != other.getClass())
 			return false;
-		if(this.nummer == ((Konto)other).nummer)
-			return true;
-		else
-			return false;
+		return this.nummer == ((Konto) other).nummer;
 	}
 	
 	@Override

@@ -61,8 +61,7 @@ public class Sparbuch extends Konto {
 		}
 		if(this.isGesperrt())
 		{
-			GesperrtException e = new GesperrtException(this.getKontonummer());
-			throw e;
+			throw new GesperrtException(this.getKontonummer());
 		}
 		LocalDate heute = LocalDate.now();
 		if(heute.getMonth() != zeitpunkt.getMonth() || heute.getYear() != zeitpunkt.getYear())
