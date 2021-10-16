@@ -13,6 +13,10 @@ public enum Waehrung {
 
     private final double wertEinesEuro;
 
+    public double getWertEinesEuro() {
+        return wertEinesEuro;
+    }
+
     Waehrung(double wertEinesEuro) {
         this.wertEinesEuro = wertEinesEuro;
     }

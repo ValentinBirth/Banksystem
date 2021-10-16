@@ -34,16 +34,6 @@ public class Sparbuch extends Konto {
 		zinssatz = 0.03;
 	}
 
-	@Override
-	public void waehrungsWechsel(Waehrung neu) {
-		if (neu != getAktuelleWaehrung()){
-			double kontostandInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getKontostand());
-			double bereitsAbgehobenInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(bereitsAbgehoben);
-			setKontostand(neu.euroInWaehrungUmrechnen(kontostandInEuro));
-			bereitsAbgehoben = neu.euroInWaehrungUmrechnen(bereitsAbgehobenInEuro);
-		}
-	}
-
 	/**
 	* ein Standard-Sparbuch, das inhaber gehört und die angegebene Kontonummer hat
 	* @param inhaber der Kontoinhaber
@@ -54,14 +44,16 @@ public class Sparbuch extends Konto {
 		super(inhaber, kontonummer);
 		zinssatz = 0.03;
 	}
-	
+
 	@Override
-	public String toString()
-	{
-    	String ausgabe = "-- SPARBUCH --" + System.lineSeparator() +
-    	super.toString()
-    	+ "Zinssatz: " + this.zinssatz * 100 +"%" + System.lineSeparator();
-    	return ausgabe;
+	public void waehrungsWechsel(Waehrung neu) {
+		if (neu != getAktuelleWaehrung()){
+			double kontostandInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getKontostand());
+			double bereitsAbgehobenInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(bereitsAbgehoben);
+			setKontostand(neu.euroInWaehrungUmrechnen(kontostandInEuro));
+			bereitsAbgehoben = neu.euroInWaehrungUmrechnen(bereitsAbgehobenInEuro);
+			setAktuelleWaehrung(neu);
+		}
 	}
 
 	@Override
@@ -98,6 +90,15 @@ public class Sparbuch extends Konto {
 		double betragInEuro = w.waehrungInEuroUmrechnen(betrag);
 		double betragInKontoWaehrung = getAktuelleWaehrung().euroInWaehrungUmrechnen(betragInEuro);
 		return abheben(betragInKontoWaehrung);
+	}
+
+	@Override
+	public String toString()
+	{
+		String ausgabe = "-- SPARBUCH --" + System.lineSeparator() +
+				super.toString()
+				+ "Zinssatz: " + this.zinssatz * 100 +"%" + System.lineSeparator();
+		return ausgabe;
 	}
 
 }

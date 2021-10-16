@@ -12,6 +12,25 @@ public class Girokonto extends Konto implements Ueberweisungsfaehig{
 	private double dispo;
 
 	/**
+	 * setzt den Dispo neu
+	 * @param dispo muss größer sein als 0
+	 * @throws IllegalArgumentException wenn dispo negativ bzw. NaN ist
+	 */
+	public void setDispo(double dispo) {
+		if(dispo < 0 || Double.isNaN(dispo))
+			throw new IllegalArgumentException("Der Dispo ist nicht gültig!");
+		this.dispo = dispo;
+	}
+
+	/**
+	 * liefert den Dispo
+	 * @return Dispo von this
+	 */
+	public double getDispo() {
+		return dispo;
+	}
+
+	/**
 	 * erzeugt ein leeres, nicht gesperrtes Standard-Girokonto
 	 * von Herrn MUSTERMANN
 	 */
@@ -19,16 +38,6 @@ public class Girokonto extends Konto implements Ueberweisungsfaehig{
 	{
 		super(Kunde.MUSTERMANN, 99887766);
 		this.dispo = 500;
-	}
-
-	@Override
-	public void waehrungsWechsel(Waehrung neu) {
-		if (neu != getAktuelleWaehrung()){
-			double kontostandInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getKontostand());
-			double dispoInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getDispo());
-			setKontostand(neu.euroInWaehrungUmrechnen(kontostandInEuro));
-			setDispo(neu.euroInWaehrungUmrechnen(dispoInEuro));
-		}
 	}
 
 	/**
@@ -45,24 +54,16 @@ public class Girokonto extends Konto implements Ueberweisungsfaehig{
 			throw new IllegalArgumentException("Der Dispo ist nicht gültig!");
 		this.dispo = dispo;
 	}
-	
-	/**
-	 * liefert den Dispo
-	 * @return Dispo von this
-	 */
-	public double getDispo() {
-		return dispo;
-	}
 
-	/**
-	 * setzt den Dispo neu
-	 * @param dispo muss größer sein als 0
-	 * @throws IllegalArgumentException wenn dispo negativ bzw. NaN ist
-	 */
-	public void setDispo(double dispo) {
-		if(dispo < 0 || Double.isNaN(dispo))
-			throw new IllegalArgumentException("Der Dispo ist nicht gültig!");
-		this.dispo = dispo;
+	@Override
+	public void waehrungsWechsel(Waehrung neu) {
+		if (neu != getAktuelleWaehrung()){
+			double kontostandInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getKontostand());
+			double dispoInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getDispo());
+			setKontostand(neu.euroInWaehrungUmrechnen(kontostandInEuro));
+			setDispo(neu.euroInWaehrungUmrechnen(dispoInEuro));
+			setAktuelleWaehrung(neu);
+		}
 	}
 	
 	@Override
@@ -91,15 +92,6 @@ public class Girokonto extends Konto implements Ueberweisungsfaehig{
             throw new IllegalArgumentException("Parameter fehlerhaft");
         setKontostand(getKontostand() + betrag);
     }
-    
-    @Override
-    public String toString()
-    {
-    	String ausgabe = "-- GIROKONTO --" + System.lineSeparator() +
-    	super.toString()
-    	+ "Dispo: " + this.dispo + System.lineSeparator();
-    	return ausgabe;
-    }
 
 	@Override
 	public boolean abheben(double betrag) throws GesperrtException{
@@ -127,5 +119,14 @@ public class Girokonto extends Konto implements Ueberweisungsfaehig{
 		double betragInKontoWaehrung = getAktuelleWaehrung().euroInWaehrungUmrechnen(betragInEuro);
 		return abheben(betragInKontoWaehrung);
 	}
+    
+    @Override
+    public String toString()
+    {
+    	String ausgabe = "-- GIROKONTO --" + System.lineSeparator() +
+    	super.toString()
+    	+ "Dispo: " + this.dispo + System.lineSeparator();
+    	return ausgabe;
+    }
 
 }

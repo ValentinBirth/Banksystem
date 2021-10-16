@@ -110,47 +110,29 @@ public class Kunde implements Comparable<Kunde>{
 	}
 
 	/**
-	 * vollständiger Name des Kunden in der Form "Nachname, Vorname"
-	 * 
-	 * @return vollständiger Name des Kunden
+	 * setzt den Vornamen auf den angegebenen Wert
+	 *
+	 * @param vorname neuer Vorname
+	 * @throws IllegalArgumentException wenn vorname null ist
 	 */
-	public String getName() {
-		return this.nachname + ", " + this.vorname;
+	public void setVorname(String vorname) {
+		if(vorname == null)
+			throw new IllegalArgumentException("Vorname darf nicht null sein");
+		this.vorname = vorname;
 	}
 
 	/**
-	 * Adresse des Kunden
-	 * 
-	 * @return Adresse des Kunden
+	 * Vorname des Kunden
+	 *
+	 * @return Vorname des Kunden
 	 */
-	public String getAdresse() {
-		return adresse;
-	}
-
-	/**
-	 * setzt die Adresse auf den angegebenen Wert
-	 * 
-	 * @param adresse neue Adresse
-	 * @throws IllegalArgumentException wenn adresse null ist
-	 */
-	public void setAdresse(String adresse) {
-		if(adresse == null)
-			throw new IllegalArgumentException("Adresse darf nicht null sein");
-		this.adresse = adresse;
-	}
-
-	/**
-	 * Nachname des Kunden
-	 * 
-	 * @return Nachname des Kunden
-	 */
-	public String getNachname() {
-		return nachname;
+	public String getVorname() {
+		return vorname;
 	}
 
 	/**
 	 * setzt den Nachnamen auf den angegebenen Wert
-	 * 
+	 *
 	 * @param nachname neuer Nachname
 	 * @throws IllegalArgumentException wenn nachname null ist
 	 */
@@ -161,24 +143,42 @@ public class Kunde implements Comparable<Kunde>{
 	}
 
 	/**
-	 * Vorname des Kunden
-	 * 
-	 * @return Vorname des Kunden
+	 * Nachname des Kunden
+	 *
+	 * @return Nachname des Kunden
 	 */
-	public String getVorname() {
-		return vorname;
+	public String getNachname() {
+		return nachname;
 	}
 
 	/**
-	 * setzt den Vornamen auf den angegebenen Wert
-	 * 
-	 * @param vorname neuer Vorname
-	 * @throws IllegalArgumentException wenn vorname null ist
+	 * vollständiger Name des Kunden in der Form "Nachname, Vorname"
+	 *
+	 * @return vollständiger Name des Kunden
 	 */
-	public void setVorname(String vorname) {
-		if(vorname == null)
-			throw new IllegalArgumentException("Vorname darf nicht null sein");
-		this.vorname = vorname;
+	public String getName() {
+		return this.nachname + ", " + this.vorname;
+	}
+
+	/**
+	 * setzt die Adresse auf den angegebenen Wert
+	 *
+	 * @param adresse neue Adresse
+	 * @throws IllegalArgumentException wenn adresse null ist
+	 */
+	public void setAdresse(String adresse) {
+		if(adresse == null)
+			throw new IllegalArgumentException("Adresse darf nicht null sein");
+		this.adresse = adresse;
+	}
+
+	/**
+	 * Adresse des Kunden
+	 * 
+	 * @return Adresse des Kunden
+	 */
+	public String getAdresse() {
+		return adresse;
 	}
 
 	/**

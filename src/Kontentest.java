@@ -1,10 +1,6 @@
 import java.time.LocalDate;
-import bankprojekt.verarbeitung.GesperrtException;
-import bankprojekt.verarbeitung.Girokonto;
-import bankprojekt.verarbeitung.Konto;
-import bankprojekt.verarbeitung.Kontoart;
-import bankprojekt.verarbeitung.Kunde;
-import bankprojekt.verarbeitung.Sparbuch;
+
+import bankprojekt.verarbeitung.*;
 
 /**
  * Testprogramm für Konten
@@ -41,7 +37,8 @@ public class Kontentest {
 		
 		Konto k = meinGiro; //Zuweisungskompatibilität
 		Girokonto k2 = (Girokonto) k;
-		k.ausgeben();
+		k.waehrungsWechsel(Waehrung.BGN);
+		System.out.println(k);
 		
 		int a = 100;
 		int b = a;
@@ -64,6 +61,11 @@ public class Kontentest {
 		for(int i=0; i<alle.length; i++)
 		{
 			System.out.println(alle[i] + ": " + alle[i].getWerbebotschaft());
+		}
+
+		Waehrung [] W = Waehrung.values();
+		for (Waehrung waehrung : W) {
+			System.out.println(waehrung + ": " + waehrung.getWertEinesEuro());
 		}
 		
 		

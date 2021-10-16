@@ -27,6 +27,45 @@ public abstract class Konto implements Comparable<Konto>
 	private Waehrung waehrung;
 
 	/**
+	 * Wenn das Konto gesperrt ist (gesperrt = true), können keine Aktionen daran mehr vorgenommen werden,
+	 * die zum Schaden des Kontoinhabers wären (abheben, Inhaberwechsel)
+	 */
+	private boolean gesperrt;
+
+	/**
+	 * setzt den Kontoinhaber
+	 * @param kinh   neuer Kontoinhaber
+	 * @throws GesperrtException wenn das Konto gesperrt ist
+	 * @throws IllegalArgumentException wenn kinh null ist
+	 */
+	public final void setInhaber(Kunde kinh) throws GesperrtException{
+		if (kinh == null) {
+			throw new IllegalArgumentException("Der Inhaber darf nicht null sein!");
+		}
+		if(this.gesperrt) {
+			throw new GesperrtException(this.nummer);
+		}
+		this.inhaber = kinh;
+
+	}
+
+	/**
+	 * liefert den Kontoinhaber zurück
+	 * @return   der Inhaber
+	 */
+	public final Kunde getInhaber() {
+		return this.inhaber;
+	}
+
+	/**
+	 * liefert die Kontonummer zurück
+	 * @return   long
+	 */
+	public final long getKontonummer() {
+		return nummer;
+	}
+
+	/**
 	 * setzt den aktuellen Kontostand
 	 * @param kontostand neuer Kontostand
 	 */
@@ -35,10 +74,73 @@ public abstract class Konto implements Comparable<Konto>
 	}
 
 	/**
-	 * Wenn das Konto gesperrt ist (gesperrt = true), können keine Aktionen daran mehr vorgenommen werden,
-	 * die zum Schaden des Kontoinhabers wären (abheben, Inhaberwechsel)
+	 * liefert den aktuellen Kontostand
+	 * @return   double
 	 */
-	private boolean gesperrt;
+	public final double getKontostand() {
+		return kontostand;
+	}
+
+	/**
+	 * liefert die aktuelle Währung des Konto zurück
+	 * @return Waehrung
+	 */
+	public void setAktuelleWaehrung(Waehrung w){
+		waehrung =w;
+	}
+
+	/**
+	 * liefert die aktuelle Währung des Konto zurück
+	 * @return Waehrung
+	 */
+	public Waehrung getAktuelleWaehrung(){
+		return waehrung;
+	}
+
+	/**
+	 * sperrt das Konto, Aktionen zum Schaden des Benutzers sind nicht mehr möglich.
+	 */
+	public final void sperren() {
+		this.gesperrt = true;
+	}
+
+	/**
+	 * entsperrt das Konto, alle Kontoaktionen sind wieder möglich.
+	 */
+	public final void entsperren() {
+		this.gesperrt = false;
+	}
+
+	/**
+	 * liefert zurück, ob das Konto gesperrt ist oder nicht
+	 * @return true, wenn das Konto gesperrt ist
+	 */
+	public final boolean isGesperrt() {
+		return gesperrt;
+	}
+
+	/**
+	 * liefert eine String-Ausgabe, wenn das Konto gesperrt ist
+	 * @return "GESPERRT", wenn das Konto gesperrt ist, ansonsten ""
+	 */
+	public final String getGesperrtText()
+	{
+		if (this.gesperrt)
+		{
+			return "GESPERRT";
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	/**
+	 * setzt alle Eigenschaften des Kontos auf Standardwerte
+	 */
+	public Konto() {
+		this(Kunde.MUSTERMANN, 1234567);
+	}
 
 	/**
 	 * Setzt die beiden Eigenschaften kontoinhaber und kontonummer auf die angegebenen Werte,
@@ -57,70 +159,6 @@ public abstract class Konto implements Comparable<Konto>
 		this.nummer = kontonummer;
 		this.kontostand = 0;
 		this.gesperrt = false;
-	}
-	
-	/**
-	 * setzt alle Eigenschaften des Kontos auf Standardwerte
-	 */
-	public Konto() {
-		this(Kunde.MUSTERMANN, 1234567);
-	}
-
-	/**
-	 * liefert den Kontoinhaber zurück
-	 * @return   der Inhaber
-	 */
-	public final Kunde getInhaber() {
-		return this.inhaber;
-	}
-	
-	/**
-	 * setzt den Kontoinhaber
-	 * @param kinh   neuer Kontoinhaber
-	 * @throws GesperrtException wenn das Konto gesperrt ist
-	 * @throws IllegalArgumentException wenn kinh null ist
-	 */
-	public final void setInhaber(Kunde kinh) throws GesperrtException{
-		if (kinh == null) {
-			throw new IllegalArgumentException("Der Inhaber darf nicht null sein!");
-		}
-		if(this.gesperrt) {
-			throw new GesperrtException(this.nummer);
-		}
-		this.inhaber = kinh;
-
-	}
-	
-	/**
-	 * liefert den aktuellen Kontostand
-	 * @return   double
-	 */
-	public final double getKontostand() {
-		return kontostand;
-	}
-
-	/**
-	 * liefert die Kontonummer zurück
-	 * @return   long
-	 */
-	public final long getKontonummer() {
-		return nummer;
-	}
-
-	/**
-	 * liefert die aktuelle Währung des Konto zurück
-	 * @return Waehrung
-	 */
-	public Waehrung getAktuelleWaehrung(){
-		return waehrung;
-	}
-
-	/**
-	 * liefert zurück, ob das Konto gesperrt ist oder nicht
-	 * @return true, wenn das Konto gesperrt ist
-	 */
-	public final boolean isGesperrt() {
-		return gesperrt;
 	}
 	
 	/**
@@ -170,6 +208,32 @@ public abstract class Konto implements Comparable<Konto>
 	}
 
 	/**
+	 * Mit dieser Methode wird der geforderte Betrag vom Konto abgehoben, wenn es nicht gesperrt ist.
+	 *
+	 * @param betrag double
+	 * @throws GesperrtException wenn das Konto gesperrt ist
+	 * @throws IllegalArgumentException wenn der betrag negativ ist
+	 * @return true, wenn die Abhebung geklappt hat,
+	 * 		   false, wenn sie abgelehnt wurde
+	 */
+	public abstract boolean abheben(double betrag)
+			throws GesperrtException;
+
+	/**
+	 * Mit dieser Methode wird der geforderte Betrag in einer spezifischen Währung
+	 * vom Konto abgehoben, wenn es nicht gesperrt ist.
+	 *
+	 * @param betrag double
+	 * @param w Waehrung
+	 * @throws GesperrtException wenn das Konto gesperrt ist
+	 * @throws IllegalArgumentException wenn der betrag negativ ist
+	 * @return true, wenn die Abhebung geklappt hat,
+	 * 		   false, wenn sie abgelehnt wurde
+	 */
+	public abstract boolean abheben(double betrag, Waehrung w)
+			throws GesperrtException;
+
+	/**
 	 * Wechselt die Währung des des aktuellen Kontos
 	 * @param neu Waherung
 	 */
@@ -187,63 +251,6 @@ public abstract class Konto implements Comparable<Konto>
 		ausgabe += "Aktueller Kontostand: " + getKontostandFormatiert() + " ";
 		ausgabe += this.getGesperrtText() + System.getProperty("line.separator");
 		return ausgabe;
-	}
-
-	/**
-	 * Mit dieser Methode wird der geforderte Betrag vom Konto abgehoben, wenn es nicht gesperrt ist.
-	 *
-	 * @param betrag double
-	 * @throws GesperrtException wenn das Konto gesperrt ist
-	 * @throws IllegalArgumentException wenn der betrag negativ ist 
-	 * @return true, wenn die Abhebung geklappt hat, 
-	 * 		   false, wenn sie abgelehnt wurde
-	 */
-	public abstract boolean abheben(double betrag) 
-								throws GesperrtException;
-
-	/**
-	 * Mit dieser Methode wird der geforderte Betrag in einer spezifischen Währung
-	 * vom Konto abgehoben, wenn es nicht gesperrt ist.
-	 *
-	 * @param betrag double
-	 * @param w Waehrung
-	 * @throws GesperrtException wenn das Konto gesperrt ist
-	 * @throws IllegalArgumentException wenn der betrag negativ ist
-	 * @return true, wenn die Abhebung geklappt hat,
-	 * 		   false, wenn sie abgelehnt wurde
-	 */
-	public abstract boolean abheben(double betrag, Waehrung w)
-			throws GesperrtException;
-	
-	/**
-	 * sperrt das Konto, Aktionen zum Schaden des Benutzers sind nicht mehr möglich.
-	 */
-	public final void sperren() {
-		this.gesperrt = true;
-	}
-
-	/**
-	 * entsperrt das Konto, alle Kontoaktionen sind wieder möglich.
-	 */
-	public final void entsperren() {
-		this.gesperrt = false;
-	}
-	
-	
-	/**
-	 * liefert eine String-Ausgabe, wenn das Konto gesperrt ist
-	 * @return "GESPERRT", wenn das Konto gesperrt ist, ansonsten ""
-	 */
-	public final String getGesperrtText()
-	{
-		if (this.gesperrt)
-		{
-			return "GESPERRT";
-		}
-		else
-		{
-			return "";
-		}
 	}
 	
 	/**
@@ -310,14 +317,5 @@ public abstract class Konto implements Comparable<Konto>
 		if(other.getKontonummer() < this.getKontonummer())
 			return 1;
 		return 0;
-	}
-	
-	/**
-	 * gehört hier absolut nicht her!
-	 * Weil: Trenne Verarbeitung von Ein-/Ausgabe!!!!
-	 */
-	public void ausgeben()
-	{
-		System.out.println(this.toString());
 	}
 }
