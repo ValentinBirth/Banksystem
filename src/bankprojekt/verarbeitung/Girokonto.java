@@ -57,13 +57,8 @@ public class Girokonto extends Konto implements Ueberweisungsfaehig{
 
 	@Override
 	public void waehrungsWechsel(Waehrung neu) {
-		if (neu != getAktuelleWaehrung()){
-			double kontostandInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getKontostand());
-			double dispoInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getDispo());
-			setKontostand(neu.euroInWaehrungUmrechnen(kontostandInEuro));
-			setDispo(neu.euroInWaehrungUmrechnen(dispoInEuro));
-			setAktuelleWaehrung(neu);
-		}
+		super.waehrungsWechsel(neu);
+		setDispo(getAktuelleWaehrung().waehrungInWaehrungUmrechnen(getDispo(),neu));
 	}
 	
 	@Override
@@ -109,24 +104,13 @@ public class Girokonto extends Konto implements Ueberweisungsfaehig{
 		else
 			return false;
 	}
-
-	@Override
-	public boolean abheben(double betrag, Waehrung w) throws GesperrtException {
-		if (betrag < 0 || Double.isNaN(betrag)) {
-			throw new IllegalArgumentException("Betrag ungültig");
-		}
-		double betragInEuro = w.waehrungInEuroUmrechnen(betrag);
-		double betragInKontoWaehrung = getAktuelleWaehrung().euroInWaehrungUmrechnen(betragInEuro);
-		return abheben(betragInKontoWaehrung);
-	}
     
     @Override
     public String toString()
     {
-    	String ausgabe = "-- GIROKONTO --" + System.lineSeparator() +
-    	super.toString()
-    	+ "Dispo: " + this.dispo + System.lineSeparator();
-    	return ausgabe;
+		return "-- GIROKONTO --" + System.lineSeparator() +
+		super.toString()
+		+ "Dispo: " + this.dispo + System.lineSeparator();
     }
 
 }

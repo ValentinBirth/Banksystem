@@ -5,7 +5,6 @@ package bankprojekt.verarbeitung;
  * @author Birth
  */
 public enum Waehrung {
-    // TODO Javadoc
     EUR(1),
     BGN(1.95583),
     LTL(3.4528),
@@ -13,6 +12,11 @@ public enum Waehrung {
 
     private final double wertEinesEuro;
 
+    /**
+     * Gibt den Wert eines Euros für die jeweilige Währung aus
+     *
+     * @return Wert eines Euro in der jeweiligen Währung
+     */
     public double getWertEinesEuro() {
         return wertEinesEuro;
     }
@@ -41,6 +45,7 @@ public enum Waehrung {
         return betrag/this.wertEinesEuro;
     }
 
-    // TODO Hilfsmethode waehrungInWaehrung erstellen und nutzen
-
+    public double waehrungInWaehrungUmrechnen(double betrag, Waehrung neu){
+        return neu.euroInWaehrungUmrechnen(this.waehrungInEuroUmrechnen(betrag));
+    }
 }

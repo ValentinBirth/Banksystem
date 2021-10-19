@@ -11,7 +11,7 @@ public class Sparbuch extends Konto {
 	/**
 	 * Zinssatz, mit dem das Sparbuch verzinst wird. 0,03 entspricht 3%
 	 */
-	private double zinssatz;
+	private final double zinssatz;
 	
 	/**
 	 * Monatlich erlaubter Gesamtbetrag für Abhebungen
@@ -47,13 +47,8 @@ public class Sparbuch extends Konto {
 
 	@Override
 	public void waehrungsWechsel(Waehrung neu) {
-		if (neu != getAktuelleWaehrung()){
-			double kontostandInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(getKontostand());
-			double bereitsAbgehobenInEuro = getAktuelleWaehrung().waehrungInEuroUmrechnen(bereitsAbgehoben);
-			setKontostand(neu.euroInWaehrungUmrechnen(kontostandInEuro));
-			bereitsAbgehoben = neu.euroInWaehrungUmrechnen(bereitsAbgehobenInEuro);
-			setAktuelleWaehrung(neu);
-		}
+		super.waehrungsWechsel(neu);
+		bereitsAbgehoben = getAktuelleWaehrung().waehrungInWaehrungUmrechnen(bereitsAbgehoben,neu);
 	}
 
 	@Override
@@ -83,22 +78,11 @@ public class Sparbuch extends Konto {
 	}
 
 	@Override
-	public boolean abheben(double betrag, Waehrung w) throws GesperrtException {
-		if (betrag < 0 || Double.isNaN(betrag)) {
-			throw new IllegalArgumentException("Betrag ungültig");
-		}
-		double betragInEuro = w.waehrungInEuroUmrechnen(betrag);
-		double betragInKontoWaehrung = getAktuelleWaehrung().euroInWaehrungUmrechnen(betragInEuro);
-		return abheben(betragInKontoWaehrung);
-	}
-
-	@Override
 	public String toString()
 	{
-		String ausgabe = "-- SPARBUCH --" + System.lineSeparator() +
+		return "-- SPARBUCH --" + System.lineSeparator() +
 				super.toString()
 				+ "Zinssatz: " + this.zinssatz * 100 +"%" + System.lineSeparator();
-		return ausgabe;
 	}
 
 }

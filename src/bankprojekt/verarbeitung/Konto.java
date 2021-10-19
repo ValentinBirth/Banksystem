@@ -81,14 +81,6 @@ public abstract class Konto implements Comparable<Konto>
 		return kontostand;
 	}
 
-	/**
-	 * TODO Überarbeiten -> Kontostand muss mit geändert werden
-	 * setzt die Wärung
-	 * @param w Waehrung
-	 */
-	public void setAktuelleWaehrung(Waehrung w){
-		waehrung =w;
-	}
 
 	/**
 	 * liefert die aktuelle Währung des Konto zurück
@@ -177,35 +169,13 @@ public abstract class Konto implements Comparable<Konto>
 
 	/**
 	 * Erhöht den Kontostand um den eingezahlten Betrag einer spezifischen Währung.
-	 * // TODO Überarbeiten -> einzahlen(double) nutzen, analog wie abheben
+	 *
 	 * @param betrag double
 	 * @param w Waehrung
 	 * @throws IllegalArgumentException wenn der betrag negativ ist
 	 */
 	public void einzahlen(double betrag, Waehrung w) {
-		if (betrag < 0 || Double.isNaN(betrag)) {
-			throw new IllegalArgumentException("Falscher Betrag");
-		}
-		if(getAktuelleWaehrung() == w) {
-			setKontostand(getKontostand() + betrag);
-		}else{
-			double betragInEuro = w.waehrungInEuroUmrechnen(betrag);
-			switch (getAktuelleWaehrung()){
-
-				case EUR -> {
-					setKontostand(getKontostand() + betragInEuro);
-				}
-				case BGN -> {
-					setKontostand(getKontostand() * Waehrung.BGN.euroInWaehrungUmrechnen(betragInEuro));
-				}
-				case LTL -> {
-					setKontostand(getKontostand() * Waehrung.LTL.euroInWaehrungUmrechnen(betragInEuro));
-				}
-				case KM -> {
-					setKontostand(getKontostand() * Waehrung.KM.euroInWaehrungUmrechnen(betragInEuro));
-				}
-			}
-		}
+		einzahlen(w.waehrungInWaehrungUmrechnen(betrag,getAktuelleWaehrung()));
 	}
 
 	/**
@@ -223,7 +193,6 @@ public abstract class Konto implements Comparable<Konto>
 	/**
 	 * Mit dieser Methode wird der geforderte Betrag in einer spezifischen Währung
 	 * vom Konto abgehoben, wenn es nicht gesperrt ist.
-	 * // TODO Methode non abstract machen (allgemeingültig Implementieren)
 	 *
 	 * @param betrag double
 	 * @param w Waehrung
@@ -232,15 +201,21 @@ public abstract class Konto implements Comparable<Konto>
 	 * @return true, wenn die Abhebung geklappt hat,
 	 * 		   false, wenn sie abgelehnt wurde
 	 */
-	public abstract boolean abheben(double betrag, Waehrung w)
-			throws GesperrtException;
+	public boolean abheben(double betrag, Waehrung w)
+			throws GesperrtException{
+		return abheben(w.waehrungInWaehrungUmrechnen(betrag,getAktuelleWaehrung()));
+	}
 
 	/**
 	 * Wechselt die Währung des des aktuellen Kontos
-	 * // TODO allgemeingültig implementieren und per super von Kindklassen aufrufen lassen
+	 *
 	 * @param neu Waherung
 	 */
-	public abstract void waehrungsWechsel(Waehrung neu);
+	public void waehrungsWechsel(Waehrung neu){
+		setKontostand(getAktuelleWaehrung().waehrungInWaehrungUmrechnen(getKontostand(),neu));
+		waehrung = neu;
+	}
+
 	
 	/**
 	 * Gibt eine Zeichenkettendarstellung der Kontodaten zurück.
@@ -271,22 +246,7 @@ public abstract class Konto implements Comparable<Konto>
 	 */
 	public String getKontostandFormatiert()
 	{
-		// TODO ändern auf this.waehrung.name()
-		switch (getAktuelleWaehrung()) {
-
-			case BGN -> {
-				return String.format("%10.2f BGN" , this.getKontostand());
-			}
-			case LTL -> {
-				return String.format("%10.2f LTL" , this.getKontostand());
-			}
-			case KM -> {
-				return String.format("%10.2f KM" , this.getKontostand());
-			}
-			default -> {
-				return String.format("%10.2f Euro" , this.getKontostand());
-			}
-		}
+		return String.format("%10.2f "+this.waehrung.name() , this.getKontostand());
 	}
 	
 	/**

@@ -17,7 +17,7 @@ public enum Kontoart {
 		return werbebotschaft;
 	}
 
-	private String werbebotschaft;
+	private final String werbebotschaft;
 	
 	Kontoart(String werbebotschaft)  // <- trotzdem private
 	{

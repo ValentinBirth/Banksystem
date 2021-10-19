@@ -208,7 +208,7 @@ public class Kunde implements Comparable<Kunde>{
 	 * @author Doro
 	 *
 	 */
-	private class Zerstoerer implements Runnable
+	private static class Zerstoerer implements Runnable
 	{
 		@Override
 		public void run() {

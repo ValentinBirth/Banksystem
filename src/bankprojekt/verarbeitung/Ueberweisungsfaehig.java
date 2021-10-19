@@ -26,7 +26,7 @@ public interface Ueberweisungsfaehig {
      * @throws IllegalArgumentException wenn der Betrag negativ bzw. NaN ist oder
      * 									empfaenger oder verwendungszweck null ist
      */
-    public boolean ueberweisungAbsenden(double betrag, 
+    boolean ueberweisungAbsenden(double betrag,
     		String empfaenger, long nachKontonr, 
     		long nachBlz, String verwendungszweck) 
     				throws GesperrtException;
@@ -41,5 +41,5 @@ public interface Ueberweisungsfaehig {
      * @throws IllegalArgumentException wenn der Betrag negativ bzw. NaN ist oder
      * 									vonName oder verwendungszweck null ist
      */
-    public void ueberweisungEmpfangen(double betrag, String vonName, long vonKontonr, long vonBlz, String verwendungszweck);
+    void ueberweisungEmpfangen(double betrag, String vonName, long vonKontonr, long vonBlz, String verwendungszweck);
 }
