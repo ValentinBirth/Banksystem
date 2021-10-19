@@ -82,8 +82,9 @@ public abstract class Konto implements Comparable<Konto>
 	}
 
 	/**
-	 * liefert die aktuelle Währung des Konto zurück
-	 * @return Waehrung
+	 * TODO Überarbeiten -> Kontostand muss mit geändert werden
+	 * setzt die Wärung
+	 * @param w Waehrung
 	 */
 	public void setAktuelleWaehrung(Waehrung w){
 		waehrung =w;
@@ -176,7 +177,7 @@ public abstract class Konto implements Comparable<Konto>
 
 	/**
 	 * Erhöht den Kontostand um den eingezahlten Betrag einer spezifischen Währung.
-	 *
+	 * // TODO Überarbeiten -> einzahlen(double) nutzen, analog wie abheben
 	 * @param betrag double
 	 * @param w Waehrung
 	 * @throws IllegalArgumentException wenn der betrag negativ ist
@@ -222,6 +223,7 @@ public abstract class Konto implements Comparable<Konto>
 	/**
 	 * Mit dieser Methode wird der geforderte Betrag in einer spezifischen Währung
 	 * vom Konto abgehoben, wenn es nicht gesperrt ist.
+	 * // TODO Methode non abstract machen (allgemeingültig Implementieren)
 	 *
 	 * @param betrag double
 	 * @param w Waehrung
@@ -235,6 +237,7 @@ public abstract class Konto implements Comparable<Konto>
 
 	/**
 	 * Wechselt die Währung des des aktuellen Kontos
+	 * // TODO allgemeingültig implementieren und per super von Kindklassen aufrufen lassen
 	 * @param neu Waherung
 	 */
 	public abstract void waehrungsWechsel(Waehrung neu);
@@ -268,6 +271,7 @@ public abstract class Konto implements Comparable<Konto>
 	 */
 	public String getKontostandFormatiert()
 	{
+		// TODO ändern auf this.waehrung.name()
 		switch (getAktuelleWaehrung()) {
 
 			case BGN -> {
