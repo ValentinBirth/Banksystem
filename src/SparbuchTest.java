@@ -1,90 +1,161 @@
-import bankprojekt.verarbeitung.GesperrtException;
-import bankprojekt.verarbeitung.Kunde;
-import bankprojekt.verarbeitung.Sparbuch;
-import bankprojekt.verarbeitung.Waehrung;
+import bankprojekt.verarbeitung.*;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SparbuchTest {
 
-    Sparbuch a;
+    Sparbuch sb;
+    Girokonto gk;
 
     @BeforeEach
     void setUp() {
-       a = new Sparbuch(Kunde.MUSTERMANN,1);
-       a.entsperren();
+        sb = new Sparbuch();
+        gk = new Girokonto();
+        gk.entsperren();
+        sb.entsperren();
     }
 
     @org.junit.jupiter.api.Test
-    void abhebenEinzelTest() throws GesperrtException {
-        a.einzahlen(10000);
-        assertTrue(a.abheben(2000));
-        assertEquals(8000.0,a.getKontostand());
+    void abhebenEinzelsbTest() throws GesperrtException {
+        sb.einzahlen(10000);
+        assertTrue(sb.abheben(2000));
+        assertEquals(8000.0, sb.getKontostand());
     }
 
     @org.junit.jupiter.api.Test
-    void abhebenMehrfachTest() throws GesperrtException {
-        a.einzahlen(10000);
-        assertTrue(a.abheben(1000));
-        assertTrue(a.abheben(1000));
-        assertEquals(8000.0,a.getKontostand());
+    void abhebenEinzelgkTest() throws GesperrtException {
+        gk.einzahlen(10000);
+        assertTrue(gk.abheben(2000));
+        assertEquals(8000.0, gk.getKontostand());
     }
 
     @org.junit.jupiter.api.Test
-    void abhebenMehrfachUeberschrittenTest() throws GesperrtException {
-        a.einzahlen(10000);
-        assertTrue(a.abheben(1000));
-        assertTrue(a.abheben(1000));
-        assertFalse(a.abheben(2000));
-        assertEquals(8000.0,a.getKontostand());
+    void abhebenMehrfachsbTest() throws GesperrtException {
+        sb.einzahlen(10000);
+        assertTrue(sb.abheben(1000));
+        assertTrue(sb.abheben(1000));
+        assertEquals(8000.0, sb.getKontostand());
     }
 
     @org.junit.jupiter.api.Test
-    void abhebenEinzelFremdwaehrungTest() throws GesperrtException {
-        a.einzahlen(10000);
-        assertTrue(a.abheben(2000, Waehrung.BGN));
-        assertEquals(8977.416237607564,a.getKontostand());
+    void abhebenMehrfachgkTest() throws GesperrtException {
+        gk.einzahlen(10000);
+        assertTrue(gk.abheben(1000));
+        assertTrue(gk.abheben(1000));
+        assertEquals(8000.0, gk.getKontostand());
     }
 
     @org.junit.jupiter.api.Test
-    void abhebenMehrfachFremdwaehrungTest() throws GesperrtException {
-        a.einzahlen(10000);
-        assertTrue(a.abheben(1000, Waehrung.BGN));
-        assertTrue(a.abheben(1000, Waehrung.BGN));
-        assertEquals(8977.416237607564,a.getKontostand(),0.001);
+    void abhebenMehrfachUeberschrittensbTest() throws GesperrtException {
+        sb.einzahlen(10000);
+        assertTrue(sb.abheben(1000));
+        assertTrue(sb.abheben(1000));
+        assertFalse(sb.abheben(2000));
+        assertEquals(8000.0, sb.getKontostand());
     }
 
     @org.junit.jupiter.api.Test
-    void wahrungsWechselEinzelTest() throws GesperrtException {
-        a.einzahlen(10000);
-        a.waehrungsWechsel(Waehrung.BGN);
-        assertEquals(Waehrung.BGN,a.getAktuelleWaehrung());
-        assertEquals(19558.3,a.getKontostand(),0.001);
+    void abhebenMehrfachUeberschrittengkTest() throws GesperrtException {
+        gk.einzahlen(10000);
+        assertTrue(gk.abheben(10000));
+        assertTrue(gk.abheben(500));
+        assertFalse(gk.abheben(2000));
+        assertEquals(-500.0, gk.getKontostand());
     }
 
     @org.junit.jupiter.api.Test
-    void wahrungsWechselMehrfachTest() throws GesperrtException {
-        a.einzahlen(10000);
-        a.waehrungsWechsel(Waehrung.BGN);
-        assertEquals(Waehrung.BGN,a.getAktuelleWaehrung());
-        assertEquals(19558.3,a.getKontostand(),0.001);
-        a.waehrungsWechsel(Waehrung.LTL);
-        assertEquals(Waehrung.LTL,a.getAktuelleWaehrung());
-        assertEquals(34528,a.getKontostand(),0.001); // Tolle Methode um gratis Geld zu bekommen ^^
+    void abhebenEinzelFremdwaehrungsbTest() throws GesperrtException {
+        sb.einzahlen(10000);
+        assertTrue(sb.abheben(2000, Waehrung.BGN));
+        assertEquals(8977.416237607564, sb.getKontostand());
     }
 
     @org.junit.jupiter.api.Test
-    void einzahlenFremwaehrungEinzelTest() throws GesperrtException {
-        a.einzahlen(10000,Waehrung.LTL);
-        assertEquals(2896.2001,a.getKontostand(),0.001);
+    void abhebenEinzelFremdwaehrunggkTest() throws GesperrtException {
+        gk.einzahlen(10000);
+        assertTrue(gk.abheben(2000, Waehrung.BGN));
+        assertEquals(8977.416237607564, gk.getKontostand());
     }
 
     @org.junit.jupiter.api.Test
-    void einzahlenFremwaehrungMehrfachTest() throws GesperrtException {
-        a.einzahlen(10000,Waehrung.LTL);
-        a.einzahlen(10000,Waehrung.KM);
-        assertEquals(8009.1189,a.getKontostand(),0.001);
+    void abhebenMehrfachFremdwaehrungsbTest() throws GesperrtException {
+        sb.einzahlen(10000);
+        assertTrue(sb.abheben(1000, Waehrung.BGN));
+        assertTrue(sb.abheben(1000, Waehrung.BGN));
+        assertEquals(8977.416237607564, sb.getKontostand(),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void abhebenMehrfachFremdwaehrunggkTest() throws GesperrtException {
+        gk.einzahlen(10000);
+        assertTrue(gk.abheben(1000, Waehrung.BGN));
+        assertTrue(gk.abheben(1000, Waehrung.BGN));
+        assertEquals(8977.416237607564, gk.getKontostand(),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void wahrungsWechselEinzelsbTest() throws GesperrtException {
+        sb.einzahlen(10000);
+        sb.waehrungsWechsel(Waehrung.BGN);
+        assertEquals(Waehrung.BGN, sb.getAktuelleWaehrung());
+        assertEquals(19558.3, sb.getKontostand(),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void wahrungsWechselEinzelgkTest() throws GesperrtException {
+        gk.einzahlen(10000);
+        gk.waehrungsWechsel(Waehrung.BGN);
+        assertEquals(Waehrung.BGN, gk.getAktuelleWaehrung());
+        assertEquals(19558.3, gk.getKontostand(),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void wahrungsWechselMehrfachsbTest() throws GesperrtException {
+        sb.einzahlen(10000);
+        sb.waehrungsWechsel(Waehrung.BGN);
+        assertEquals(Waehrung.BGN, sb.getAktuelleWaehrung());
+        assertEquals(19558.3, sb.getKontostand(),0.001);
+        sb.waehrungsWechsel(Waehrung.LTL);
+        assertEquals(Waehrung.LTL, sb.getAktuelleWaehrung());
+        assertEquals(34528, sb.getKontostand(),0.001); // Tolle Methode um gratis Geld zu bekommen ^^
+    }
+
+    @org.junit.jupiter.api.Test
+    void wahrungsWechselMehrfachgkTest() throws GesperrtException {
+        gk.einzahlen(10000);
+        gk.waehrungsWechsel(Waehrung.BGN);
+        assertEquals(Waehrung.BGN, gk.getAktuelleWaehrung());
+        assertEquals(19558.3, gk.getKontostand(),0.001);
+        gk.waehrungsWechsel(Waehrung.LTL);
+        assertEquals(Waehrung.LTL, gk.getAktuelleWaehrung());
+        assertEquals(34528, gk.getKontostand(),0.001); // Tolle Methode um gratis Geld zu bekommen ^^
+    }
+
+    @org.junit.jupiter.api.Test
+    void einzahlenFremwaehrungEinzelsbTest() throws GesperrtException {
+        sb.einzahlen(10000,Waehrung.LTL);
+        assertEquals(2896.2001, sb.getKontostand(),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void einzahlenFremwaehrungEinzelgkTest() throws GesperrtException {
+        gk.einzahlen(10000,Waehrung.LTL);
+        assertEquals(2896.2001, gk.getKontostand(),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void einzahlenFremwaehrungMehrfachsbTest() throws GesperrtException {
+        sb.einzahlen(10000,Waehrung.LTL);
+        sb.einzahlen(10000,Waehrung.KM);
+        assertEquals(8009.1189, sb.getKontostand(),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void einzahlenFremwaehrungMehrfachgkTest() throws GesperrtException {
+        gk.einzahlen(10000,Waehrung.LTL);
+        gk.einzahlen(10000,Waehrung.KM);
+        assertEquals(8009.1189, gk.getKontostand(),0.001);
     }
 
     @org.junit.jupiter.api.Test
