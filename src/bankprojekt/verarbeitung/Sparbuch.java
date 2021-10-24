@@ -31,6 +31,7 @@ public class Sparbuch extends Konto {
 	* ein Standard-Sparbuch
 	*/
 	public Sparbuch() {
+		super(Kunde.MUSTERMANN,94857385);
 		zinssatz = 0.03;
 	}
 

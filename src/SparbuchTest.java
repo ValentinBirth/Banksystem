@@ -54,4 +54,46 @@ class SparbuchTest {
         assertTrue(a.abheben(1000, Waehrung.BGN));
         assertEquals(8977.416237607564,a.getKontostand(),0.001);
     }
+
+    @org.junit.jupiter.api.Test
+    void wahrungsWechselEinzelTest() throws GesperrtException {
+        a.einzahlen(10000);
+        a.waehrungsWechsel(Waehrung.BGN);
+        assertEquals(Waehrung.BGN,a.getAktuelleWaehrung());
+        assertEquals(19558.3,a.getKontostand(),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void wahrungsWechselMehrfachTest() throws GesperrtException {
+        a.einzahlen(10000);
+        a.waehrungsWechsel(Waehrung.BGN);
+        assertEquals(Waehrung.BGN,a.getAktuelleWaehrung());
+        assertEquals(19558.3,a.getKontostand(),0.001);
+        a.waehrungsWechsel(Waehrung.LTL);
+        assertEquals(Waehrung.LTL,a.getAktuelleWaehrung());
+        assertEquals(34528,a.getKontostand(),0.001); // Tolle Methode um gratis Geld zu bekommen ^^
+    }
+
+    @org.junit.jupiter.api.Test
+    void einzahlenFremwaehrungEinzelTest() throws GesperrtException {
+        a.einzahlen(10000,Waehrung.LTL);
+        assertEquals(2896.2001,a.getKontostand(),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void einzahlenFremwaehrungMehrfachTest() throws GesperrtException {
+        a.einzahlen(10000,Waehrung.LTL);
+        a.einzahlen(10000,Waehrung.KM);
+        assertEquals(8009.1189,a.getKontostand(),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void waehrungInEuroTest() throws GesperrtException {
+        assertEquals(0.51129,Waehrung.BGN.waehrungInEuroUmrechnen(1),0.001);
+    }
+
+    @org.junit.jupiter.api.Test
+    void euroInWaehrungTest() throws GesperrtException {
+        assertEquals(1.95583,Waehrung.BGN.euroInWaehrungUmrechnen(1),0.001);
+    }
 }
