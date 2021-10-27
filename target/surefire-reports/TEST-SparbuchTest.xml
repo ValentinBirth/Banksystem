@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="SparbuchTest" time="0.026" tests="18" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="SparbuchTest" time="0.023" tests="18" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="15"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="DE"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-15.0.1\bin"/>
-    <property name="sun.java.command" value="C:\Users\tschu\AppData\Local\Temp\surefire4914981610345713773\surefirebooter16433197633700636871.jar C:\Users\tschu\AppData\Local\Temp\surefire4914981610345713773 2021-10-27T18-07-58_490-jvmRun1 surefire13596032705738914384tmp surefire_012924689130461734634tmp"/>
+    <property name="sun.java.command" value="C:\Users\tschu\AppData\Local\Temp\surefire12752332910643190403\surefirebooter7218876902633786324.jar C:\Users\tschu\AppData\Local\Temp\surefire12752332910643190403 2021-10-27T18-14-02_681-jvmRun1 surefire5177244002657264028tmp surefire_012714755144291362384tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\Schule\Studium\3. Semester\Prog3\Banksystem\target\test-classes;D:\Schule\Studium\3. Semester\Prog3\Banksystem\target\classes;C:\Users\tschu\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.1\junit-jupiter-5.8.1.jar;C:\Users\tschu\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\tschu\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\tschu\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\tschu\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\tschu\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.1\junit-jupiter-params-5.8.1.jar;C:\Users\tschu\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\tschu\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\tschu\.m2\repository\com\drewnoakes\metadata-extractor\2.16.0\metadata-extractor-2.16.0.jar;C:\Users\tschu\.m2\repository\com\adobe\xmp\xmpcore\6.1.11\xmpcore-6.1.11.jar;C:\Users\tschu\.m2\repository\org\decimal4j\decimal4j\1.0.3\decimal4j-1.0.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\tschu\AppData\Local\Temp\surefire4914981610345713773\surefirebooter16433197633700636871.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\tschu\AppData\Local\Temp\surefire12752332910643190403\surefirebooter7218876902633786324.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="15.0.1+9-18"/>
@@ -57,21 +57,21 @@
     <property name="java.class.version" value="59.0"/>
   </properties>
   <testcase name="euroInWaehrungTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="waehrungInEuroTest" classname="SparbuchTest" time="0.001"/>
+  <testcase name="waehrungInEuroTest" classname="SparbuchTest" time="0"/>
   <testcase name="abhebenMehrfachUeberschrittensbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="entsperren" classname="SparbuchTest" time="0.001"/>
-  <testcase name="einzahlenFremwaehrungEinzelsbTest" classname="SparbuchTest" time="0"/>
-  <testcase name="abhebenEinzelsbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="abhebenFalscherBetragsbTest" classname="SparbuchTest" time="0.002"/>
+  <testcase name="einzahlenFremwaehrungEinzelsbTest" classname="SparbuchTest" time="0.001"/>
+  <testcase name="abhebenEinzelsbTest" classname="SparbuchTest" time="0"/>
+  <testcase name="abhebenFalscherBetragsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="wertEinesEuroEURTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="wertEinesEuroKMTest" classname="SparbuchTest" time="0.001"/>
+  <testcase name="wertEinesEuroKMTest" classname="SparbuchTest" time="0"/>
   <testcase name="gesperrtsbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="wertEinesEuroBGNTest" classname="SparbuchTest" time="0"/>
-  <testcase name="wahrungsWechselMehrfachsbTest" classname="SparbuchTest" time="0"/>
+  <testcase name="wertEinesEuroBGNTest" classname="SparbuchTest" time="0.001"/>
+  <testcase name="wahrungsWechselMehrfachsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="abhebenMehrfachFremdwaehrungsbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="wertEinesEuroLTLTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="abhebenEinzelFremdwaehrungsbTest" classname="SparbuchTest" time="0.001"/>
+  <testcase name="wertEinesEuroLTLTest" classname="SparbuchTest" time="0"/>
+  <testcase name="abhebenEinzelFremdwaehrungsbTest" classname="SparbuchTest" time="0"/>
   <testcase name="wahrungsWechselEinzelsbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="einzahlenFremwaehrungMehrfachsbTest" classname="SparbuchTest" time="0"/>
+  <testcase name="einzahlenFremwaehrungMehrfachsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="abhebenMehrfachsbTest" classname="SparbuchTest" time="0.001"/>
 </testsuite>
