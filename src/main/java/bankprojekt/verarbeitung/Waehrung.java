@@ -1,5 +1,7 @@
 package bankprojekt.verarbeitung;
 
+import org.decimal4j.util.DoubleRounder;
+
 /**
  * alle Wärhungen mit der die Bank umgeht
  * @author Birth
@@ -11,6 +13,7 @@ public enum Waehrung {
     KM(1.95583);
 
     private final double wertEinesEuro;
+    private DoubleRounder rounder = new DoubleRounder(2);
 
     /**
      * Gibt den Wert eines Euros für die jeweilige Währung aus
@@ -32,7 +35,7 @@ public enum Waehrung {
      * @return Umgerechneter Betrag in der jeweiligen Währung
      */
     public double euroInWaehrungUmrechnen(double betrag){
-        return this.wertEinesEuro*betrag;
+        return rounder.round(this.wertEinesEuro*betrag);
     }
 
     /**
@@ -42,10 +45,10 @@ public enum Waehrung {
      * @return Umgerechneter Betrag in Euro
      */
     public double waehrungInEuroUmrechnen(double betrag){
-        return betrag/this.wertEinesEuro;
+        return rounder.round(betrag/this.wertEinesEuro);
     }
 
     public double waehrungInWaehrungUmrechnen(double betrag, Waehrung neu){
-        return neu.euroInWaehrungUmrechnen(this.waehrungInEuroUmrechnen(betrag));
+        return rounder.round(neu.euroInWaehrungUmrechnen(this.waehrungInEuroUmrechnen(betrag)));
     }
 }
