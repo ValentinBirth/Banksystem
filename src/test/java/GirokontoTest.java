@@ -157,16 +157,17 @@ class GirokontoTest {
     }
 
     @Test
+    void setDispoNegativTest(){
+        gk.entsperren();
+        assertThrows(IllegalArgumentException.class, () -> gk.setDispo(-9));
+    }
+
+    @Test
     void entsperrenTet(){
         gk.entsperren();
         assertFalse(gk.isGesperrt());
     }
 
-    @Test
-    void setDispoNegativTest(){
-        gk.entsperren();
-        assertThrows(IllegalArgumentException.class, () -> gk.setDispo(-9));
-    }
     @Test
     void setDispoNaNTest(){
         gk.entsperren();
