@@ -93,15 +93,14 @@
                 <version>3.3.0</version>
                 <configuration>
                     <show>package</show>
-                    <outputDirectory>${project.build.directory}/dokumentation</outputDirectory>
+                    <reportOutputDirectory>${project.basedir}/target/dokumentation</reportOutputDirectory>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>javadoc</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>javadoc</goal>
                         </goals>
-                        <phase>package</phase>
                     </execution>
                 </executions>
             </plugin>

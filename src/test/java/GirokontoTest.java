@@ -139,7 +139,7 @@ class GirokontoTest {
         assertEquals(400.0, gk.getKontostand());
     }
     @Test
-    void mehrfachAbheben()throws GesperrtException{
+    void mehrfachAbhebenTest()throws GesperrtException{
         gk.abheben(100);
         gk.einzahlen(500);
         gk.abheben(100);
@@ -147,7 +147,7 @@ class GirokontoTest {
         assertEquals(200.0, gk.getKontostand());
     }
     @Test
-    void ueberDispoAbheben()throws GesperrtException{
+    void ueberDispoAbhebenTest()throws GesperrtException{
         gk.abheben(100);
         gk.einzahlen(500);
         gk.abheben(100);
@@ -157,8 +157,19 @@ class GirokontoTest {
     }
 
     @Test
-    void entsperren(){
+    void entsperrenTet(){
         gk.entsperren();
         assertFalse(gk.isGesperrt());
+    }
+
+    @Test
+    void setDispoNegativTest(){
+        gk.entsperren();
+        assertThrows(IllegalArgumentException.class, () -> gk.setDispo(-9));
+    }
+    @Test
+    void setDispoNaNTest(){
+        gk.entsperren();
+        assertThrows(IllegalArgumentException.class, () -> gk.setDispo(Double.NaN));
     }
 }

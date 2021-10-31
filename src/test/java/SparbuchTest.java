@@ -130,7 +130,7 @@ class SparbuchTest {
         assertEquals(1.95583,Waehrung.BGN.getWertEinesEuro());
     }
     @Test
-    void entsperren(){
+    void entsperrenTest(){
         sb.entsperren();
         assertFalse(sb.isGesperrt());
     }
