@@ -13,7 +13,6 @@ public enum Waehrung {
     KM(1.95583);
 
     private final double wertEinesEuro;
-    private DoubleRounder rounder = new DoubleRounder(2);
 
     /**
      * Gibt den Wert eines Euros für die jeweilige Währung aus
@@ -35,7 +34,7 @@ public enum Waehrung {
      * @return Umgerechneter Betrag in der jeweiligen Währung
      */
     public double euroInWaehrungUmrechnen(double betrag){
-        return rounder.round(this.wertEinesEuro*betrag);
+        return DoubleRounder.round(this.wertEinesEuro*betrag,2);
     }
 
     /**
@@ -45,10 +44,17 @@ public enum Waehrung {
      * @return Umgerechneter Betrag in Euro
      */
     public double waehrungInEuroUmrechnen(double betrag){
-        return rounder.round(betrag/this.wertEinesEuro);
+        return DoubleRounder.round(betrag/this.wertEinesEuro,2);
     }
 
+    /**
+     * Rechnet den in der this-Währung angegebenen Betrag in eine Beliebige andere Währung um
+     *
+     * @param betrag Betrag in der jeweiligen Währung
+     * @param neu    Währung in die Umgerechnet werden soll
+     * @return Umgerechneter Betrag
+     */
     public double waehrungInWaehrungUmrechnen(double betrag, Waehrung neu){
-        return rounder.round(neu.euroInWaehrungUmrechnen(this.waehrungInEuroUmrechnen(betrag)));
+        return DoubleRounder.round(neu.euroInWaehrungUmrechnen(this.waehrungInEuroUmrechnen(betrag)),2);
     }
 }
