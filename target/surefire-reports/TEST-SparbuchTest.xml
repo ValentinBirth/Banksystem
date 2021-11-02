@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="SparbuchTest" time="0.038" tests="18" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="SparbuchTest" time="0.045" tests="18" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="15"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="DE"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-15.0.2\bin"/>
-    <property name="sun.java.command" value="C:\Users\Valentin Birth\AppData\Local\Temp\surefire7898846772395959339\surefirebooter11498823854215602221.jar C:\Users\Valentin Birth\AppData\Local\Temp\surefire7898846772395959339 2021-11-02T10-14-46_578-jvmRun1 surefire8886416359308818680tmp surefire_07276247251296001168tmp"/>
+    <property name="sun.java.command" value="C:\Users\Valentin Birth\AppData\Local\Temp\surefire3998859256580703664\surefirebooter14277846263347254482.jar C:\Users\Valentin Birth\AppData\Local\Temp\surefire3998859256580703664 2021-11-02T11-01-08_871-jvmRun1 surefire8578640017979948240tmp surefire_03285061790520999820tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Studium\3.Semester\Prog3\Banksystem\target\test-classes;C:\Studium\3.Semester\Prog3\Banksystem\target\classes;C:\Users\Valentin Birth\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.1\junit-jupiter-5.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Valentin Birth\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Valentin Birth\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.1\junit-jupiter-params-5.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\decimal4j\decimal4j\1.0.3\decimal4j-1.0.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Valentin Birth\AppData\Local\Temp\surefire7898846772395959339\surefirebooter11498823854215602221.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Valentin Birth\AppData\Local\Temp\surefire3998859256580703664\surefirebooter14277846263347254482.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="15.0.2+7-27"/>
@@ -57,21 +57,21 @@
     <property name="java.class.version" value="59.0"/>
   </properties>
   <testcase name="euroInWaehrungTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="waehrungInEuroTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="abhebenMehrfachUeberschrittensbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="einzahlenFremwaehrungEinzelsbTest" classname="SparbuchTest" time="0.001"/>
+  <testcase name="waehrungInEuroTest" classname="SparbuchTest" time="0"/>
+  <testcase name="abhebenMehrfachUeberschrittensbTest" classname="SparbuchTest" time="0"/>
+  <testcase name="einzahlenFremwaehrungEinzelsbTest" classname="SparbuchTest" time="0"/>
   <testcase name="abhebenEinzelsbTest" classname="SparbuchTest" time="0"/>
   <testcase name="abhebenFalscherBetragsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="wertEinesEuroEURTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="entsperrenTest" classname="SparbuchTest" time="0"/>
-  <testcase name="wertEinesEuroKMTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="gesperrtsbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="wertEinesEuroBGNTest" classname="SparbuchTest" time="0"/>
+  <testcase name="entsperrenTest" classname="SparbuchTest" time="0.001"/>
+  <testcase name="wertEinesEuroKMTest" classname="SparbuchTest" time="0"/>
+  <testcase name="gesperrtsbTest" classname="SparbuchTest" time="0.006"/>
+  <testcase name="wertEinesEuroBGNTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="wahrungsWechselMehrfachsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="abhebenMehrfachFremdwaehrungsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="wertEinesEuroLTLTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="abhebenEinzelFremdwaehrungsbTest" classname="SparbuchTest" time="0.002"/>
+  <testcase name="abhebenEinzelFremdwaehrungsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="wahrungsWechselEinzelsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="einzahlenFremwaehrungMehrfachsbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="abhebenMehrfachsbTest" classname="SparbuchTest" time="0.001"/>
+  <testcase name="abhebenMehrfachsbTest" classname="SparbuchTest" time="0"/>
 </testsuite>
