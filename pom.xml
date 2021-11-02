@@ -64,14 +64,13 @@
                 <version>0.8.7</version>
                 <executions>
                     <execution>
-                        <id>default-prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                         <phase>validate</phase>
                     </execution>
                     <execution>
-                        <id>default-report</id>
+                        <id>testabdeckung</id>
                         <goals>
                             <goal>report</goal>
                         </goals>
