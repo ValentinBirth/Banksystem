@@ -1,5 +1,3 @@
-package bankprojekt.verarbeitung;
-
 import java.time.LocalDate;
 
 import bankprojekt.verarbeitung.*;
