@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Bank implements Bankfaehig{
     private long bankleitzahl;
-    private long groesteKontoNummer = 0;
+    private static long groesteKontoNummer = 0;
     private List<Long> kontoNummern = new LinkedList<>();
     private Map<Long, Konto> konten = new HashMap<>();
 
@@ -98,10 +98,14 @@ public class Bank implements Bankfaehig{
     }
 
     @Override
-    public boolean geldUeberweisen(long vonKontoNummer, long nachKontoNummer, double betrag, String verwendungszweck) {
+    public boolean geldUeberweisen(long vonKontoNummer, long nachKontoNummer, double betrag, String verwendungszweck) throws GesperrtException {
         if (konten.containsKey(vonKontoNummer) && konten.containsKey(nachKontoNummer)){
-            if(Ueberweisungsfaehig.class.isAssignableFrom(konten.get(nachKontoNummer).getClass()) && Ueberweisungsfaehig.class.isAssignableFrom(konten.get(nachKontoNummer).getClass())){
-               //TODO Überweisung not implemented
+            if(Ueberweisungsfaehig.class.isAssignableFrom(konten.get(vonKontoNummer).getClass()) && Ueberweisungsfaehig.class.isAssignableFrom(konten.get(nachKontoNummer).getClass())){
+                Girokonto vonKonto = (Girokonto) konten.get(vonKontoNummer);
+                Girokonto nachKonto = (Girokonto) konten.get(nachKontoNummer);
+                boolean absenden =vonKonto.ueberweisungAbsenden(betrag,nachKonto.getInhaber().getName(),nachKontoNummer,bankleitzahl,verwendungszweck);
+                nachKonto.ueberweisungEmpfangen(betrag,nachKonto.getInhaber().getName(),vonKontoNummer,bankleitzahl,verwendungszweck);
+                return absenden;
             }
         }
         return false;

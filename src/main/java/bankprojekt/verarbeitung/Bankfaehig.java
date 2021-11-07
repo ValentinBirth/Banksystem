@@ -87,7 +87,7 @@ public interface Bankfaehig {
       * @param verwendungszweck Verwendungszweck der Überweisung
       * @return True, wenn erfolgreich, false, wenn nicht
       */
-     boolean geldUeberweisen(long vonKontoNummer, long nachKontoNummer, double betrag, String verwendungszweck);
+     boolean geldUeberweisen(long vonKontoNummer, long nachKontoNummer, double betrag, String verwendungszweck) throws GesperrtException;
 
 
 
