@@ -104,9 +104,10 @@ public class Bank implements Bankfaehig{
                 // Casten konnte nur Hardcoded gelöst werden
                 Girokonto vonKonto = (Girokonto) konten.get(vonKontoNummer);
                 Girokonto nachKonto = (Girokonto) konten.get(nachKontoNummer);
-                boolean absenden =vonKonto.ueberweisungAbsenden(betrag,nachKonto.getInhaber().getName(),nachKontoNummer,bankleitzahl,verwendungszweck);
-                nachKonto.ueberweisungEmpfangen(betrag,nachKonto.getInhaber().getName(),vonKontoNummer,bankleitzahl,verwendungszweck);
-                return absenden;
+                if(vonKonto.ueberweisungAbsenden(betrag,nachKonto.getInhaber().getName(),nachKontoNummer,bankleitzahl,verwendungszweck)){
+                    nachKonto.ueberweisungEmpfangen(betrag,nachKonto.getInhaber().getName(),vonKontoNummer,bankleitzahl,verwendungszweck);
+                    return true;
+                }
             }
         }
         return false;
