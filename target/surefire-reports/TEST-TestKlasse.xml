@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="TestKlasse" time="0.022" tests="11" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="TestKlasse" time="0.018" tests="11" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="15"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="DE"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-15.0.2\bin"/>
-    <property name="sun.java.command" value="C:\Users\Valentin Birth\AppData\Local\Temp\surefire16075857414646292688\surefirebooter5693856223777421874.jar C:\Users\Valentin Birth\AppData\Local\Temp\surefire16075857414646292688 2021-11-07T12-43-42_188-jvmRun1 surefire1582752642933515855tmp surefire_017281902152520088065tmp"/>
+    <property name="sun.java.command" value="C:\Users\Valentin Birth\AppData\Local\Temp\surefire11952923971887218744\surefirebooter11091775144402946049.jar C:\Users\Valentin Birth\AppData\Local\Temp\surefire11952923971887218744 2021-11-08T15-58-53_616-jvmRun1 surefire10596781590492539295tmp surefire_010377446762956038495tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Studium\3.Semester\Prog3\Banksystem\target\test-classes;C:\Studium\3.Semester\Prog3\Banksystem\target\classes;C:\Users\Valentin Birth\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.1\junit-jupiter-5.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Valentin Birth\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Valentin Birth\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.1\junit-jupiter-params-5.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\Valentin Birth\.m2\repository\org\decimal4j\decimal4j\1.0.3\decimal4j-1.0.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Valentin Birth\AppData\Local\Temp\surefire16075857414646292688\surefirebooter5693856223777421874.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Valentin Birth\AppData\Local\Temp\surefire11952923971887218744\surefirebooter11091775144402946049.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="15.0.2+7-27"/>
@@ -56,15 +56,15 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="59.0"/>
   </properties>
-  <testcase name="abhebenInAndererWaehrung" classname="TestKlasse" time="0.004"/>
-  <testcase name="waherungswechselErneut" classname="TestKlasse" time="0"/>
+  <testcase name="abhebenInAndererWaehrung" classname="TestKlasse" time="0.001"/>
+  <testcase name="waherungswechselErneut" classname="TestKlasse" time="0.001"/>
   <testcase name="waehrungswechel" classname="TestKlasse" time="0.001"/>
   <testcase name="entsperren" classname="TestKlasse" time="0.001"/>
-  <testcase name="abhebenInAndererWaehrungErneut" classname="TestKlasse" time="0.002"/>
+  <testcase name="abhebenInAndererWaehrungErneut" classname="TestKlasse" time="0.001"/>
   <testcase name="aktuelleWaehrung" classname="TestKlasse" time="0.001"/>
-  <testcase name="einzahlenTest" classname="TestKlasse" time="0"/>
+  <testcase name="einzahlenTest" classname="TestKlasse" time="0.001"/>
   <testcase name="abhebenTest" classname="TestKlasse" time="0"/>
-  <testcase name="einzahlenInAndererWaehrungErneut" classname="TestKlasse" time="0.001"/>
+  <testcase name="einzahlenInAndererWaehrungErneut" classname="TestKlasse" time="0"/>
   <testcase name="mehrfachAbheben" classname="TestKlasse" time="0"/>
   <testcase name="ueberDispoAbheben" classname="TestKlasse" time="0"/>
 </testsuite>
