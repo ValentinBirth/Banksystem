@@ -101,11 +101,10 @@ public class Bank implements Bankfaehig{
     public boolean geldUeberweisen(long vonKontoNummer, long nachKontoNummer, double betrag, String verwendungszweck) throws GesperrtException {
         if (konten.containsKey(vonKontoNummer) && konten.containsKey(nachKontoNummer)){
             if(Ueberweisungsfaehig.class.isAssignableFrom(konten.get(vonKontoNummer).getClass()) && Ueberweisungsfaehig.class.isAssignableFrom(konten.get(nachKontoNummer).getClass())){
-                // Casten konnte nur Hardcoded gelöst werden
-                Girokonto vonKonto = (Girokonto) konten.get(vonKontoNummer);
-                Girokonto nachKonto = (Girokonto) konten.get(nachKontoNummer);
-                if(vonKonto.ueberweisungAbsenden(betrag,nachKonto.getInhaber().getName(),nachKontoNummer,bankleitzahl,verwendungszweck)){
-                    nachKonto.ueberweisungEmpfangen(betrag,nachKonto.getInhaber().getName(),vonKontoNummer,bankleitzahl,verwendungszweck);
+                Ueberweisungsfaehig vonKonto = (Ueberweisungsfaehig) konten.get(vonKontoNummer);
+                Ueberweisungsfaehig nachKonto = (Ueberweisungsfaehig) konten.get(nachKontoNummer);
+                if(vonKonto.ueberweisungAbsenden(betrag,konten.get(nachKontoNummer).getInhaber().getName(),nachKontoNummer,bankleitzahl,verwendungszweck)){
+                    nachKonto.ueberweisungEmpfangen(betrag,konten.get(vonKontoNummer).getInhaber().getName(),vonKontoNummer,bankleitzahl,verwendungszweck);
                     return true;
                 }
             }
