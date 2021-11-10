@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Bank implements Bankfaehig{
     private long bankleitzahl;
-    private static long groesteKontoNummer = 0;
+    private long groesteKontoNummer = 0;
     private List<Long> kontoNummern = new LinkedList<>();
     private Map<Long, Konto> konten = new HashMap<>();
 
