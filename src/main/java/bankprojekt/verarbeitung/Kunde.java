@@ -202,8 +202,12 @@ public class Kunde implements Comparable<Kunde>{
 		else
 			ANREDE = "Dear Customer!";
 	}
-	
-	/**
+
+	public int speichern() {
+		return 5;
+	}
+
+    /**
 	 * Klasse für Aufräumarbeiten
 	 * @author Doro
 	 *

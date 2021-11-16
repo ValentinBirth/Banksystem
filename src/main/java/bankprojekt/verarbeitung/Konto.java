@@ -1,5 +1,8 @@
 package bankprojekt.verarbeitung;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 /**
  * stellt ein allgemeines Konto dar
  *@author Birth
@@ -281,5 +284,45 @@ public abstract class Konto implements Comparable<Konto>
 		if(other.getKontonummer() < this.getKontonummer())
 			return 1;
 		return 0;
+	}
+
+	public void speichern(Statement stmt) throws Exception
+	{
+		ResultSet rs=null ;
+		try
+		{
+			rs = stmt.executeQuery("SELECT * FROM konto WHERE kontonr="+this.nummer);
+			if (rs.next())
+			{
+				rs.updateDouble("kontostand", this.kontostand);
+				rs.updateBoolean("gesperrt", this.gesperrt);
+				rs.updateRow();
+			}
+			else
+			{
+				rs.moveToInsertRow();
+				rs.updateDouble("kontostand", this.kontostand);
+				rs.updateBoolean("gesperrt", this.gesperrt);
+				rs.updateLong("kontonr", this.nummer);
+				int nummer = this.inhaber.speichern();
+				rs.updateInt("kunde", nummer);
+				rs.insertRow();
+			}
+
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				if (rs != null) rs.close();
+			} catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
 	}
 }
