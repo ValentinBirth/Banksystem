@@ -45,6 +45,14 @@ public class Bank implements Bankfaehig{
         return kontonummer;
     }
 
+    public long mockEinfuegen(Konto k){
+        long kontonummer = groesteKontoNummer;
+        konten.put(kontonummer,k);
+        kontoNummern.add(kontonummer);
+        groesteKontoNummer+=1;
+        return kontonummer;
+    }
+
     @Override
     public String getAlleKonten() {
         String alleKonten="";
@@ -82,6 +90,7 @@ public class Bank implements Bankfaehig{
     public boolean kontoLoeschen(long nummer) {
         if(konten.containsKey(nummer)){
             konten.remove(nummer);
+            kontoNummern.remove(nummer);
             return true;
         }else {
             return false;
