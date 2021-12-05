@@ -43,7 +43,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.5</version>
                 <configuration>
-                    <mainClass>Kontentest</mainClass>
+                    <mainClass>KontenMainTest</mainClass>
                 </configuration>
             </plugin>
             <plugin>

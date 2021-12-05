@@ -2,6 +2,11 @@ package bankprojekt.verarbeitung;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
 
 /**
  * stellt ein allgemeines Konto dar
@@ -34,6 +39,11 @@ public abstract class Konto implements Comparable<Konto>
 	 * die zum Schaden des Kontoinhabers wären (abheben, Inhaberwechsel)
 	 */
 	private boolean gesperrt;
+
+	/**
+	 * Aktiendepot des Kontos
+	 */
+	private Map<Aktie,String> aktienDepot;
 
 	/**
 	 * setzt den Kontoinhaber
@@ -155,6 +165,61 @@ public abstract class Konto implements Comparable<Konto>
 		this.nummer = kontonummer;
 		this.kontostand = 0;
 		this.gesperrt = false;
+		this.aktienDepot = new HashMap<>();
+	}
+
+	/**
+	 * @param a Aktie welche zu Kaufen ist
+	 * @param anzahl Anzahl der zu kaufenden Aktien
+	 * @param hoechstpreis Höchstpreis bis wann man kaufen will
+	 * @return gesamtpreis des kaufes
+	 */
+	public Future<Double> kaufauftrag(Aktie a, int anzahl, double hoechstpreis){
+		Callable<Double> aktieKaufen = new Callable<Double>() {
+			@Override
+			public Double call(){
+				while (true) {
+					double aktienPreis = a.getKurs();
+					if (aktienPreis < hoechstpreis) {
+						if (aktienPreis * anzahl < getKontostand()) {
+							aktienDepot.put(a, ""+anzahl);
+							setKontostand(getKontostand() - (aktienPreis * anzahl));
+							return aktienPreis * anzahl;
+						}
+					}
+				}
+			}
+		};
+		ScheduledExecutorService aktienkauf = Executors.newScheduledThreadPool(3);
+		return aktienkauf.submit(aktieKaufen);
+	}
+
+	public Future<Double> verkaufauftrag (String wkn, double minimalpreis){
+			Callable<Double> aktieVerkaufen = new Callable<Double>() {
+				@Override
+				public Double call() {
+					Aktie dummyaktie = null;
+					for(Aktie aktie: aktienDepot.keySet()){
+						if(aktie.getWertpapierNummer().equals(wkn)){
+							dummyaktie=aktie;
+						}
+					}
+					if (dummyaktie!=null) {
+						while (true) {
+							double aktienPreis = dummyaktie.getKurs();
+							if (aktienPreis > minimalpreis) {
+									int anzahl = Integer.parseInt(aktienDepot.get(dummyaktie));
+									setKontostand(getKontostand() + (aktienPreis * anzahl));
+									return aktienPreis * anzahl;
+							}
+						}
+					}else{
+						return 0D;
+					}
+				}
+			};
+		ScheduledExecutorService aktienverkauf = Executors.newScheduledThreadPool(3);
+		return aktienverkauf.submit(aktieVerkaufen);
 	}
 	
 	/**

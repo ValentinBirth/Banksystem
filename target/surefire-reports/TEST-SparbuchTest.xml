@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="SparbuchTest" time="0.028" tests="18" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="SparbuchTest" time="0.024" tests="18" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="15"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="DE"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-15.0.1\bin"/>
-    <property name="sun.java.command" value="C:\Users\tschu\AppData\Local\Temp\surefire7359189810761290912\surefirebooter8793784237463125443.jar C:\Users\tschu\AppData\Local\Temp\surefire7359189810761290912 2021-11-17T17-49-22_670-jvmRun1 surefire8395541747983123439tmp surefire_017805522657194343232tmp"/>
+    <property name="sun.java.command" value="C:\Users\tschu\AppData\Local\Temp\surefire3367024415092170705\surefirebooter2452617501444558650.jar C:\Users\tschu\AppData\Local\Temp\surefire3367024415092170705 2021-12-05T15-15-39_926-jvmRun1 surefire3624031640763156683tmp surefire_04276439794741736436tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\Schule\Studium\3. Semester\Prog3\Banksystem\target\test-classes;D:\Schule\Studium\3. Semester\Prog3\Banksystem\target\classes;C:\Users\tschu\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.1\junit-jupiter-5.8.1.jar;C:\Users\tschu\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\tschu\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\tschu\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\tschu\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\tschu\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.1\junit-jupiter-params-5.8.1.jar;C:\Users\tschu\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\tschu\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\tschu\.m2\repository\org\decimal4j\decimal4j\1.0.3\decimal4j-1.0.3.jar;C:\Users\tschu\.m2\repository\org\mockito\mockito-core\4.0.0\mockito-core-4.0.0.jar;C:\Users\tschu\.m2\repository\net\bytebuddy\byte-buddy\1.11.19\byte-buddy-1.11.19.jar;C:\Users\tschu\.m2\repository\net\bytebuddy\byte-buddy-agent\1.11.19\byte-buddy-agent-1.11.19.jar;C:\Users\tschu\.m2\repository\org\objenesis\objenesis\3.2\objenesis-3.2.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\tschu\AppData\Local\Temp\surefire7359189810761290912\surefirebooter8793784237463125443.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\tschu\AppData\Local\Temp\surefire3367024415092170705\surefirebooter2452617501444558650.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="15.0.1+9-18"/>
@@ -56,22 +56,22 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="59.0"/>
   </properties>
-  <testcase name="euroInWaehrungTest" classname="SparbuchTest" time="0.002"/>
+  <testcase name="euroInWaehrungTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="waehrungInEuroTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="abhebenMehrfachUeberschrittensbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="einzahlenFremwaehrungEinzelsbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="abhebenEinzelsbTest" classname="SparbuchTest" time="0"/>
+  <testcase name="einzahlenFremwaehrungEinzelsbTest" classname="SparbuchTest" time="0"/>
+  <testcase name="abhebenEinzelsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="abhebenFalscherBetragsbTest" classname="SparbuchTest" time="0.002"/>
   <testcase name="wertEinesEuroEURTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="entsperrenTest" classname="SparbuchTest" time="0"/>
+  <testcase name="entsperrenTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="wertEinesEuroKMTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="gesperrtsbTest" classname="SparbuchTest" time="0.002"/>
+  <testcase name="gesperrtsbTest" classname="SparbuchTest" time="0"/>
   <testcase name="wertEinesEuroBGNTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="wahrungsWechselMehrfachsbTest" classname="SparbuchTest" time="0"/>
-  <testcase name="abhebenMehrfachFremdwaehrungsbTest" classname="SparbuchTest" time="0"/>
+  <testcase name="wahrungsWechselMehrfachsbTest" classname="SparbuchTest" time="0.001"/>
+  <testcase name="abhebenMehrfachFremdwaehrungsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="wertEinesEuroLTLTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="abhebenEinzelFremdwaehrungsbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="wahrungsWechselEinzelsbTest" classname="SparbuchTest" time="0"/>
+  <testcase name="wahrungsWechselEinzelsbTest" classname="SparbuchTest" time="0.001"/>
   <testcase name="einzahlenFremwaehrungMehrfachsbTest" classname="SparbuchTest" time="0.001"/>
-  <testcase name="abhebenMehrfachsbTest" classname="SparbuchTest" time="0"/>
+  <testcase name="abhebenMehrfachsbTest" classname="SparbuchTest" time="0.001"/>
 </testsuite>

@@ -7,7 +7,7 @@ import bankprojekt.verarbeitung.*;
  * @author Doro
  *
  */
-public class Kontentest {
+public class KontenMainTest {
 
 	/**
 	 * Testprogramm für Konten

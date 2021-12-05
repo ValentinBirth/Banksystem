@@ -7,7 +7,7 @@ import java.time.LocalDate;
  * @author Doro
  *
  */
-public class Bankentest {
+public class BankenMainTest {
 
 	/**
 	 * Testprogramm für Banken
