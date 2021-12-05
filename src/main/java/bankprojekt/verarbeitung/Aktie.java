@@ -20,7 +20,7 @@ public class Aktie {
     private double kurs;
 
     /**
-     * Konstruktor einer Aktie die sekündlich ihren Kurs neu berechnet
+     * Konstruktor einer Aktie die sekündlich ihren Kurs zufällig neu berechnet
      * @param name Name der Aktie
      * @param wertpapierNummer Nummer der Aktie
      * @param kurs Anfangswert der Aktie
@@ -52,18 +52,34 @@ public class Aktie {
         preisberechnung.scheduleWithFixedDelay(wertberechnung,0L,1L, TimeUnit.SECONDS);
     }
 
+    /**
+     * getter für den Aktienkurs
+     * @return Aktienkurs als double
+     */
     public double getKurs() {
         return kurs;
     }
 
+    /**
+     * setter für den Aktienkurs
+     * @param kurs Aktienkurs als double
+     */
     public void setKurs(double kurs) {
         this.kurs = kurs;
     }
 
+    /**
+     * getter für den Aktienname
+     * @return Aktienname
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * getter für die Wertpapiernummer
+     * @return Wertpapiernummer als String
+     */
     public String getWertpapierNummer() {
         return wertpapierNummer;
     }

@@ -169,6 +169,7 @@ public abstract class Konto implements Comparable<Konto>
 	}
 
 	/**
+	 * Gibt einen Kaufauftrag für eine bestimmte Aktie auf
 	 * @param a Aktie welche zu Kaufen ist
 	 * @param anzahl Anzahl der zu kaufenden Aktien
 	 * @param hoechstpreis Höchstpreis bis wann man kaufen will
@@ -194,6 +195,12 @@ public abstract class Konto implements Comparable<Konto>
 		return aktienkauf.submit(aktieKaufen);
 	}
 
+	/**
+	 * Gibt einen Verkaufsauftrag für alle Aktien auf
+	 * @param wkn Wertpapiernummer der zu verkaufenden Aktie
+	 * @param minimalpreis minimalpreis zu dem die Aktie verkauft werden soll
+	 * @return gesamt erlös des Verkaufs
+	 */
 	public Future<Double> verkaufauftrag (String wkn, double minimalpreis){
 			Callable<Double> aktieVerkaufen = new Callable<Double>() {
 				@Override
