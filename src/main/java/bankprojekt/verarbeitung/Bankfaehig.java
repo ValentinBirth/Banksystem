@@ -94,6 +94,38 @@ public interface Bankfaehig {
       */
      boolean geldUeberweisen(long vonKontoNummer, long nachKontoNummer, double betrag, String verwendungszweck) throws GesperrtException;
 
+     /**
+      * sperrt alle Konten, deren Kontostand im Minus ist
+      */
+     void pleiteGeierSperren();
+
+     /**
+      * sucht alle Kunden die auf einem Konto einen Mindestkontostand haben
+      * @param minimum minumum des Kontostand
+      * @return Liste der Kunden
+      */
+     List<Kunde> getKundenMitVollemKonto(double minimum);
+
+     /**
+      * liefert Name und Geburtstage aller Kunden ohne dopplung und sortiert nach Datum
+      * @return Namen und Geburtstage aller Kunden
+      */
+     String getKundenGeburtstage();
+
+     /**
+      * liefert eine Liste aller freien Kontonummern
+      * @return Liste aller freien Kontonummern
+      */
+     List<Long> getKontonummernLuecken();
+
+     /**
+      * liefert alle Kunden deren Gesamteinlage auf all ihren Konten mehr als minimum ist
+      * @param minimum minimum für Gesamteinlage
+      * @return Liste der Kunden
+      */
+     List<Kunde> getAlleReichenKunden(double minimum);
+
+
 
 
 }

@@ -1,6 +1,9 @@
 package bankprojekt.verarbeitung;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 public class Bank implements Bankfaehig{
     private long bankleitzahl;
@@ -119,5 +122,34 @@ public class Bank implements Bankfaehig{
             }
         }
         return false;
+    }
+
+    @Override
+    public void pleiteGeierSperren() {
+        Stream<Konto> kontenStream = konten.values().stream();
+        kontenStream.filter(konto -> konto.getKontostand()<0).forEach(Konto::sperren);
+    }
+
+    @Override
+    public List<Kunde> getKundenMitVollemKonto(double minimum) {
+        Stream<Konto> kontenStream = konten.values().stream();
+        return kontenStream.filter(konto -> konto.getKontostand()>minimum).map(Konto::getInhaber).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getKundenGeburtstage() {
+        Stream<Konto> kontenStream = konten.values().stream();
+        return kontenStream.map(Konto::getInhaber).distinct().sorted(Comparator.comparing(Kunde::getGeburtstag)).map(Kunde::toString).reduce("", (partialString, element) -> partialString + element);
+    }
+
+    @Override
+    public List<Long> getKontonummernLuecken() {
+        Stream<Long> nummernStream = LongStream.range(0,groesteKontoNummer).boxed();
+        return nummernStream.filter(aLong -> !kontoNummern.contains(aLong)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Kunde> getAlleReichenKunden(double minimum) {
+        return null;
     }
 }

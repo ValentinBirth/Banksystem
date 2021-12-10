@@ -13,23 +13,20 @@ public class AktienMainTest {
         Girokonto gk = new Girokonto();
         gk.einzahlen(10);
 
-        Runnable boersenausgabe = new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    if (Thread.interrupted()){
-                        return;
-                    }else {
-                        System.out.println(new Date()+"| Boerse");
-                        System.out.println(htw.getName() + ": " + htw.getKurs());
-                        System.out.println(tu.getName() + ": " + tu.getKurs());
-                        System.out.println(hu.getName() + ": " + hu.getKurs());
-                        System.out.println("-----------------------------");
-                        try {
-                            Thread.sleep(1000);
-                        }catch (InterruptedException e){
-                            System.exit(0);
-                        }
+        Runnable boersenausgabe = () -> {
+            while (true) {
+                if (Thread.interrupted()){
+                    return;
+                }else {
+                    System.out.println(new Date()+"| Boerse");
+                    System.out.println(htw.getName() + ": " + htw.getKurs());
+                    System.out.println(tu.getName() + ": " + tu.getKurs());
+                    System.out.println(hu.getName() + ": " + hu.getKurs());
+                    System.out.println("-----------------------------");
+                    try {
+                        Thread.sleep(1000);
+                    }catch (InterruptedException e){
+                        System.exit(0);
                     }
                 }
             }

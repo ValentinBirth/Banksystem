@@ -36,5 +36,6 @@ public class BankenMainTest {
 		System.out.println(Sparkasse.geldUeberweisen(0,1,500,"Test"));
 		System.out.println(Sparkasse.getAlleKonten());
 		System.out.println("------------------------------------------------------");
+		System.out.println(Sparkasse.getKundenGeburtstage());
 	}
 }

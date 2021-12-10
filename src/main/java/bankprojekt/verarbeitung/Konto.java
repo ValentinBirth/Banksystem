@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 
 /**
  * stellt ein allgemeines Konto dar
@@ -43,7 +45,7 @@ public abstract class Konto implements Comparable<Konto>
 	/**
 	 * Aktiendepot des Kontos
 	 */
-	private Map<Aktie,String> aktienDepot;
+	private Map<Aktie,Integer> aktienDepot;
 
 	/**
 	 * setzt den Kontoinhaber
@@ -179,20 +181,32 @@ public abstract class Konto implements Comparable<Konto>
 		Callable<Double> aktieKaufen = new Callable<Double>() {
 			@Override
 			public Double call(){
-				while (true) {
-					double aktienPreis = a.getKurs();
-					if (aktienPreis < hoechstpreis) {
-						if (aktienPreis * anzahl < getKontostand()) {
-							aktienDepot.put(a, ""+anzahl);
-							setKontostand(getKontostand() - (aktienPreis * anzahl));
-							return aktienPreis * anzahl;
-						}
+				Lock aktienLock = a.getAktienLock();
+				Condition kursVeraendert = a.getKursVerändert();
+				aktienLock.lock();
+				while (a.getKurs() > hoechstpreis) {
+					try {
+						kursVeraendert.await();
+					} catch (InterruptedException e) {
 					}
 				}
+				double preis = anzahl*a.getKurs();
+				if (kontostand >= preis) {
+					kontostand -= preis;
+					if (aktienDepot.containsKey(a)){
+						aktienDepot.put(a,aktienDepot.get(a)+anzahl);
+					}else{
+						aktienDepot.put(a,anzahl);
+					}
+				}else {
+					preis = 0;
+				}
+				aktienLock.unlock();
+				return preis;
 			}
-		};
-		ScheduledExecutorService aktienkauf = Executors.newScheduledThreadPool(3);
-		return aktienkauf.submit(aktieKaufen);
+	};
+		ScheduledExecutorService aktienkauf = Executors.newSingleThreadScheduledExecutor();
+		return aktienkauf.schedule(aktieKaufen,0,TimeUnit.SECONDS);
 	}
 
 	/**
@@ -202,31 +216,38 @@ public abstract class Konto implements Comparable<Konto>
 	 * @return gesamt erlös des Verkaufs
 	 */
 	public Future<Double> verkaufauftrag (String wkn, double minimalpreis){
-			Callable<Double> aktieVerkaufen = new Callable<Double>() {
-				@Override
-				public Double call() {
-					Aktie dummyaktie = null;
-					for(Aktie aktie: aktienDepot.keySet()){
-						if(aktie.getWertpapierNummer().equals(wkn)){
-							dummyaktie=aktie;
+		Aktie dummyaktie = null;
+		for(Aktie aktie: aktienDepot.keySet()){
+			if(aktie.getWertpapierNummer().equals(wkn)){
+				dummyaktie=aktie;
+			}
+		}
+		Aktie a = dummyaktie;
+		Callable<Double> aktieVerkaufen = new Callable<Double>() {
+			@Override
+			public Double call() {
+				if (a!=null) {
+					Lock aktienLock = a.getAktienLock();
+					Condition kursVeraendert = a.getKursVerändert();
+					aktienLock.lock();
+					while (a.getKurs() < minimalpreis) {
+						try {
+							kursVeraendert.await();
+						} catch (InterruptedException e) {
 						}
 					}
-					if (dummyaktie!=null) {
-						while (true) {
-							double aktienPreis = dummyaktie.getKurs();
-							if (aktienPreis > minimalpreis) {
-									int anzahl = Integer.parseInt(aktienDepot.get(dummyaktie));
-									setKontostand(getKontostand() + (aktienPreis * anzahl));
-									return aktienPreis * anzahl;
-							}
-						}
-					}else{
-						return 0D;
-					}
+					double preis = aktienDepot.get(a)*a.getKurs();
+					kontostand+=preis;
+					aktienDepot.remove(a);
+					aktienLock.unlock();
+					return preis;
+				}else{
+					return 0D;
 				}
-			};
-		ScheduledExecutorService aktienverkauf = Executors.newScheduledThreadPool(3);
-		return aktienverkauf.submit(aktieVerkaufen);
+			}
+		};
+		ScheduledExecutorService aktienverkauf = Executors.newSingleThreadScheduledExecutor();
+		return aktienverkauf.schedule(aktieVerkaufen,0,TimeUnit.SECONDS);
 	}
 	
 	/**

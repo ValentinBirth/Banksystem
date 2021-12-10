@@ -1,6 +1,9 @@
 package bankprojekt.verarbeitung;
 
 import java.util.concurrent.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Klasse für eine Aktie
@@ -20,6 +23,15 @@ public class Aktie {
     private double kurs;
 
     /**
+     * Condition um in anderen Threads auf Änderungen der Aktie zu warten
+     */
+    private Condition kursVerändert;
+    /**
+     * Lock für synchronisation
+     */
+    private Lock aktienLock;
+
+    /**
      * Konstruktor einer Aktie die sekündlich ihren Kurs zufällig neu berechnet
      * @param name Name der Aktie
      * @param wertpapierNummer Nummer der Aktie
@@ -29,27 +41,19 @@ public class Aktie {
         this.name = name;
         this.wertpapierNummer = wertpapierNummer;
         this.kurs = kurs;
+        this.aktienLock = new ReentrantLock();
+        this.kursVerändert = this.aktienLock.newCondition();
 
-        Runnable wertberechnung = new Runnable() {
-            @Override
-            public void run() {
-                double zufallsZahl = ThreadLocalRandom.current().nextDouble(-3, 3.1);
-                if(zufallsZahl<0){
-                    synchronized (this) {
-                        double newKurs = getKurs() * ((100 - Math.abs(zufallsZahl))/100);
-                        setKurs(newKurs);
-                    }
-                }else{
-                    synchronized (this) {
-                        double newKurs = getKurs() * ((100 + Math.abs(zufallsZahl))/100);
-                        setKurs(newKurs);
-                    }
-                }
-            }
+        Runnable wertberechnung = () -> {
+            double veraenderung = Math.random()*6-3;
+            aktienLock.lock();
+            setKurs(getKurs()*(100+veraenderung)/100);
+            kursVerändert.signalAll();
+            aktienLock.unlock();
         };
 
-        ScheduledExecutorService preisberechnung = Executors.newScheduledThreadPool(1);
-        preisberechnung.scheduleWithFixedDelay(wertberechnung,0L,1L, TimeUnit.SECONDS);
+        ScheduledExecutorService preisberechnung = Executors.newSingleThreadScheduledExecutor();
+        preisberechnung.scheduleAtFixedRate(wertberechnung,0,1,TimeUnit.SECONDS);
     }
 
     /**
@@ -64,7 +68,7 @@ public class Aktie {
      * setter für den Aktienkurs
      * @param kurs Aktienkurs als double
      */
-    public void setKurs(double kurs) {
+    private void setKurs(double kurs) {
         this.kurs = kurs;
     }
 
@@ -82,5 +86,21 @@ public class Aktie {
      */
     public String getWertpapierNummer() {
         return wertpapierNummer;
+    }
+
+    /**
+     * getter für Condition
+     * @return Condition für Kurs Verändert
+     */
+    public Condition getKursVerändert() {
+        return kursVerändert;
+    }
+
+    /**
+     * getter für Lock
+     * @return Lock
+     */
+    public Lock getAktienLock() {
+        return aktienLock;
     }
 }
