@@ -132,4 +132,16 @@ public class BankenTest {
         Mockito.verify(gk1).ueberweisungAbsenden(ArgumentMatchers.anyDouble(),ArgumentMatchers.anyString(),ArgumentMatchers.anyLong(),ArgumentMatchers.anyLong(),ArgumentMatchers.anyString());
         Mockito.verify(gk2).ueberweisungEmpfangen(ArgumentMatchers.anyDouble(),ArgumentMatchers.anyString(),ArgumentMatchers.anyLong(),ArgumentMatchers.anyLong(),ArgumentMatchers.anyString());
     }
+
+    @Test
+    void testClone() {
+        Bank sparkasse = new Bank(111);
+        Kunde bob = new Kunde();
+        long bobnr = sparkasse.girokontoErstellen(bob);
+
+        Bank billigeKopie = sparkasse.clone();
+        assertEquals(sparkasse.getAlleKonten(),billigeKopie.getAlleKonten());
+        sparkasse.geldEinzahlen(bobnr,100);
+        assertNotEquals(sparkasse.getKontostand(bobnr),billigeKopie.getKontostand(bobnr));
+    }
 }

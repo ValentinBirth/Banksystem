@@ -1,11 +1,12 @@
 package bankprojekt.verarbeitung;
 
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-public class Bank implements Bankfaehig{
+public class Bank implements Bankfaehig, Cloneable, Serializable {
     private long bankleitzahl;
     private long groesteKontoNummer = 0;
     private List<Long> kontoNummern = new LinkedList<>();
@@ -151,5 +152,21 @@ public class Bank implements Bankfaehig{
     @Override
     public List<Kunde> getAlleReichenKunden(double minimum) {
         return null;
+    }
+
+    @Override
+    public Bank clone(){
+        try {
+            Bank clone = (Bank) super.clone();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(this);
+
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            return (Bank) objectInputStream.readObject();
+        } catch (CloneNotSupportedException | IOException | ClassNotFoundException e) {
+            throw new AssertionError(e);
+        }
     }
 }

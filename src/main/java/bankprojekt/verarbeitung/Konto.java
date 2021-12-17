@@ -1,5 +1,6 @@
 package bankprojekt.verarbeitung;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -14,8 +15,7 @@ import java.util.concurrent.locks.Lock;
  * stellt ein allgemeines Konto dar
  *@author Birth
  */
-public abstract class Konto implements Comparable<Konto>
-{
+public abstract class Konto implements Comparable<Konto>, Serializable {
 	/** 
 	 * der Kontoinhaber
 	 */
