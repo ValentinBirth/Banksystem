@@ -138,10 +138,16 @@ public class BankenTest {
         Bank sparkasse = new Bank(111);
         Kunde bob = new Kunde();
         long bobnr = sparkasse.girokontoErstellen(bob);
-
         Bank billigeKopie = sparkasse.clone();
+
+        assertNotEquals(sparkasse,billigeKopie);
+        assertEquals(sparkasse.getBankleitzahl(), billigeKopie.getBankleitzahl());
+        assertEquals(sparkasse.getAlleKontonummern(),billigeKopie.getAlleKontonummern());
+        assertEquals(sparkasse.getKontonummernLuecken(),billigeKopie.getKontonummernLuecken());
         assertEquals(sparkasse.getAlleKonten(),billigeKopie.getAlleKonten());
+        assertEquals(sparkasse.getKundenGeburtstage(),billigeKopie.getKundenGeburtstage());
         sparkasse.geldEinzahlen(bobnr,100);
         assertNotEquals(sparkasse.getKontostand(bobnr),billigeKopie.getKontostand(bobnr));
+        assertNotEquals(sparkasse.getKundenMitVollemKonto(50),billigeKopie.getKundenMitVollemKonto(50));
     }
 }
