@@ -1,5 +1,6 @@
 package bankprojekt.verarbeitung;
 
+import java.io.Serializable;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -8,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Klasse für eine Aktie
  */
-public class Aktie {
+public class Aktie implements Serializable {
     /**
      * Name der Aktie
      */
