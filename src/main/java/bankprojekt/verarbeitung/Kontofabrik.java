@@ -6,8 +6,7 @@ public abstract class Kontofabrik {
      *
      * @param inhaber Inhaber des Konto
      * @param kontonummer Kontonummer des Kontos
-     * @return Kontonummer des erstellen Kontos
-     * @throws IllegalArgumentException Wenn Inhaber nicht existiert
+     * @return Erzeugtes Konto
      */
     public abstract Konto kontoErzeugen(Kunde inhaber, long kontonummer);
 }
