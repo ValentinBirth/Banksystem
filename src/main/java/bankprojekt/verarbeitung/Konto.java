@@ -3,9 +3,7 @@ package bankprojekt.verarbeitung;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Condition;
@@ -278,13 +276,31 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * Mit dieser Methode wird der geforderte Betrag vom Konto abgehoben, wenn es nicht gesperrt ist.
 	 *
 	 * @param betrag double
-	 * @throws GesperrtException wenn das Konto gesperrt ist
-	 * @throws IllegalArgumentException wenn der betrag negativ ist
 	 * @return true, wenn die Abhebung geklappt hat,
 	 * 		   false, wenn sie abgelehnt wurde
 	 */
-	public abstract boolean abheben(double betrag)
-			throws GesperrtException;
+	public final boolean abheben(double betrag) throws GesperrtException {
+		if(!isGesperrt()){
+			if(!Double.isNaN(betrag)&&betrag>0) {
+				if (gesonderteBedingungen(betrag)) {
+					setKontostand(getKontostand() - betrag);
+					return true;
+				}
+			}else{
+				throw new IllegalArgumentException("Betrag ungültig");
+			}
+		}else{
+			throw new GesperrtException(getKontonummer());
+		}
+		return false;
+	}
+
+	/**
+	 * prüft Kontospezisiche Bedingungen zum Abheben
+	 * @param betrag double
+	 * @return true, wenn bedingen erfüllt sind, false, wenn nicht
+	 */
+	protected abstract boolean gesonderteBedingungen(double betrag);
 
 	/**
 	 * Mit dieser Methode wird der geforderte Betrag in einer spezifischen Währung
@@ -292,13 +308,10 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 *
 	 * @param betrag double
 	 * @param w Waehrung
-	 * @throws GesperrtException wenn das Konto gesperrt ist
-	 * @throws IllegalArgumentException wenn der betrag negativ ist
 	 * @return true, wenn die Abhebung geklappt hat,
 	 * 		   false, wenn sie abgelehnt wurde
 	 */
-	public boolean abheben(double betrag, Waehrung w)
-			throws GesperrtException{
+	public boolean abheben(double betrag, Waehrung w) throws GesperrtException {
 		return abheben(w.waehrungInWaehrungUmrechnen(betrag,getAktuelleWaehrung()));
 	}
 

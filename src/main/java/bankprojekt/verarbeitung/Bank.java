@@ -7,10 +7,10 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 public class Bank implements Bankfaehig, Cloneable, Serializable {
-    private long bankleitzahl;
-    private long groesteKontoNummer = 0;
-    private List<Long> kontoNummern = new LinkedList<>();
-    private Map<Long, Konto> konten = new HashMap<>();
+    protected long bankleitzahl;
+    protected long groesteKontoNummer = 0;
+    protected List<Long> kontoNummern = new LinkedList<>();
+    protected Map<Long, Konto> konten = new HashMap<>();
 
     /**
      * Konstruktor für eine Bank
@@ -26,35 +26,11 @@ public class Bank implements Bankfaehig, Cloneable, Serializable {
     }
 
     @Override
-    public long girokontoErstellen(Kunde inhaber) throws IllegalArgumentException{
-        long kontonummer = groesteKontoNummer;
+    public long kontoErstellen(Kontofabrik kontofabrik, Kunde inhaber) {
         if (inhaber==null){
             throw new IllegalArgumentException("Inhaber darf nicht Null sein!");
         }
-        konten.put(kontonummer,new Girokonto(inhaber,kontonummer,500));
-        kontoNummern.add(kontonummer);
-        groesteKontoNummer+=1;
-        return kontonummer;
-    }
-
-    @Override
-    public long sparbuchErstellen(Kunde inhaber) throws IllegalArgumentException{
-        long kontonummer = groesteKontoNummer;
-        if (inhaber==null){
-            throw new IllegalArgumentException("Inhaber darf nicht Null sein!");
-        }
-        konten.put(kontonummer,new Sparbuch(inhaber,kontonummer));
-        kontoNummern.add(kontonummer);
-        groesteKontoNummer+=1;
-        return kontonummer;
-    }
-
-    public long mockEinfuegen(Konto k){
-        long kontonummer = groesteKontoNummer;
-        konten.put(kontonummer,k);
-        kontoNummern.add(kontonummer);
-        groesteKontoNummer+=1;
-        return kontonummer;
+        return kontofabrik.kontoErzeugen(inhaber,this);
     }
 
     @Override

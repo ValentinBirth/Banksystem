@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: TestKlasse
 -------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s - in TestKlasse
+Tests run: 11, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.021 s <<< FAILURE! - in TestKlasse
+TestKlasse.ueberDispoAbheben  Time elapsed: 0 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <false> but was: <true>
+	at TestKlasse.ueberDispoAbheben(TestKlasse.java:44)
+

@@ -15,22 +15,12 @@ public interface Bankfaehig {
      long getBankleitzahl();
 
      /**
-      * Konstruktor für ein Girokonto
-      *
-      * @param inhaber Inhaber des Konto
-      * @return Kontonummer des erstellen Kontos
-      * @throws IllegalArgumentException Wenn Inhaber nicht existiert
+      * Fabrik zum Erstellen von Konten
+      * @param kontofabrik Typenspezifische Fabrik
+      * @param inhaber Kontoinhaber
+      * @return kontonummer des erstellen Kontos
       */
-     long girokontoErstellen(Kunde inhaber)throws IllegalArgumentException;
-
-     /**
-      * Konsturktor für ein Sparbuch
-      *
-      * @param inhaber Inhaber des Konto
-      * @return Kontonummer des erstellten Kontos
-      * @throws IllegalArgumentException Wenn Inhaber nicht existiert
-      */
-     long sparbuchErstellen(Kunde inhaber)throws IllegalArgumentException;
+     long kontoErstellen(Kontofabrik kontofabrik, Kunde inhaber);
 
      /**
       * Gibt alle Konten im lesbaren Format wieder

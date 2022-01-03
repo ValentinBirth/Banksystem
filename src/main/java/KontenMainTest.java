@@ -13,7 +13,7 @@ public class KontenMainTest {
 	 * Testprogramm für Konten
 	 * @param args wird nicht benutzt
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws GesperrtException {
 		Kunde ich = new Kunde("Dorothea", "Hubrich", "zuhause", LocalDate.parse("1976-07-13"));
 
 		//Konto k = new Konto(ich, 47345);
@@ -24,17 +24,10 @@ public class KontenMainTest {
 		
 		Sparbuch meinSpar = new Sparbuch(ich, 9876);
 		meinSpar.einzahlen(50);
-		try
-		{
-			boolean hatGeklappt = meinSpar.abheben(70);
-			System.out.println("Abhebung hat geklappt: " + hatGeklappt);
-			System.out.println(meinSpar);
-		}
-		catch (GesperrtException e)
-		{
-			System.out.println("Zugriff auf gesperrtes Konto - Polizei rufen!");
-		}
-		
+		boolean hatGeklappt = meinSpar.abheben(70);
+		System.out.println("Abhebung hat geklappt: " + hatGeklappt);
+		System.out.println(meinSpar);
+
 		Konto k = meinGiro; //Zuweisungskompatibilität
 		Girokonto k2 = (Girokonto) k;
 		k.waehrungsWechsel(Waehrung.BGN);
