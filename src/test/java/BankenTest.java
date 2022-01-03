@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Null;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,9 +72,8 @@ public class BankenTest {
 
     @Test
     public void geldEinzahlenEinzelTest() throws GesperrtException {
-
-        long kontonummergk1 = bank.kontoErstellen(new MockKontoFabrik(Girokonto.class), kunde1);
-        bank.mockEinfuegen(gk2);
+        long kontonummergk1 = bank.kontoErstellen(new MockKontoFabrik(gk1), kunde1);
+        bank.kontoErstellen(new MockKontoFabrik(gk2), kunde1);
         bank.geldEinzahlen(kontonummergk1,100);
         Mockito.verify(gk1,Mockito.times(1)).einzahlen(ArgumentMatchers.anyDouble());
         Mockito.verifyNoInteractions(gk2);
@@ -84,8 +82,8 @@ public class BankenTest {
     @Test
     public void geldEinzahlenMehrfachTest() throws GesperrtException {
 
-        long kontonummer1 = bank.mockEinfuegen(sb1);
-        long kontonummer2 = bank.mockEinfuegen(k2);
+        long kontonummer1 = bank.kontoErstellen(new MockKontoFabrik(sb1), kunde1);
+        long kontonummer2 = bank.kontoErstellen(new MockKontoFabrik(k2), kunde1);
         bank.geldEinzahlen(kontonummer1,100);
         bank.geldEinzahlen(kontonummer2,100);
         Mockito.verify(k2,Mockito.times(1)).einzahlen(ArgumentMatchers.anyDouble());
@@ -95,8 +93,8 @@ public class BankenTest {
     @Test
     public void KontoGesperrtTest() throws GesperrtException {
 
-        long kontonummer1 = bank.mockEinfuegen(k1);
-        bank.mockEinfuegen(k2);
+        long kontonummer1 = bank.kontoErstellen(new MockKontoFabrik(k1), kunde1);
+        bank.kontoErstellen(new MockKontoFabrik(k2), kunde1);
         Mockito.when(k1.abheben(ArgumentMatchers.anyDouble())).thenThrow(GesperrtException.class);
         assertThrows(GesperrtException.class, () -> bank.geldAbheben(kontonummer1,100));
         Mockito.verifyNoInteractions(k2);
@@ -105,8 +103,8 @@ public class BankenTest {
     @Test
     public void DispoUberzogenTest() throws GesperrtException {
 
-        long kontonummer1 = bank.mockEinfuegen(gk1);
-        bank.mockEinfuegen(gk1);
+        long kontonummer1 = bank.kontoErstellen(new MockKontoFabrik(gk1), kunde1);
+    bank.kontoErstellen(new MockKontoFabrik(gk2), kunde1);
         Mockito.when(gk1.abheben(ArgumentMatchers.anyDouble())).thenReturn(false);
         assertFalse(bank.geldAbheben(kontonummer1,100000));
         Mockito.verifyNoInteractions(gk2);
@@ -115,8 +113,8 @@ public class BankenTest {
     @Test
     public void KontoLoeschen(){
 
-        long kontonummer1 = bank.mockEinfuegen(k1);
-        long kontonummer2 = bank.mockEinfuegen(k2);
+        long kontonummer1 = bank.kontoErstellen(new MockKontoFabrik(k1), kunde1);
+        long kontonummer2 = bank.kontoErstellen(new MockKontoFabrik(k2), kunde1);
         assertTrue(bank.kontoLoeschen(kontonummer1));
         assertEquals(kontonummer2,bank.getAlleKontonummern().get(0));
         Mockito.verifyNoInteractions(k1);
@@ -128,8 +126,8 @@ public class BankenTest {
 
         gk1.setInhaber(kunde1);
         gk2.setInhaber(kunde2);
-        long kontonummer1 = bank.mockEinfuegen(gk1);
-        long kontonummer2 = bank.mockEinfuegen(gk2);
+        long kontonummer1 = bank.kontoErstellen(new MockKontoFabrik(gk1), kunde1);
+        long kontonummer2 = bank.kontoErstellen(new MockKontoFabrik(gk2), kunde1);
         Mockito.when(kunde1.getName()).thenReturn("Kunde1");
         Mockito.when(kunde2.getName()).thenReturn("Kunde2");
         Mockito.when(gk1.ueberweisungAbsenden(ArgumentMatchers.anyDouble(),ArgumentMatchers.anyString(),ArgumentMatchers.anyLong(),ArgumentMatchers.anyLong(),ArgumentMatchers.anyString())).thenReturn(true);
@@ -142,7 +140,7 @@ public class BankenTest {
     void testClone() {
         Bank sparkasse = new Bank(111);
         Kunde bob = new Kunde();
-        long bobnr = sparkasse.girokontoErstellen(bob);
+        long bobnr = sparkasse.kontoErstellen(new GirokontoFabrik(),bob);
         Bank billigeKopie = sparkasse.clone();
 
         assertNotEquals(sparkasse,billigeKopie);

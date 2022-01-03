@@ -17,11 +17,13 @@ public class BankenMainTest {
 		Kunde ich = new Kunde("Dorothea", "Hubrich", "zuhause", LocalDate.parse("1976-07-13"));
 
 		Bank Sparkasse = new Bank(1005);
+		GirokontoFabrik girokontoFabrik = new GirokontoFabrik();
+		SparbuchFabrik sparbuchFabrik = new SparbuchFabrik();
 
 		System.out.println("Konten werden erstellt");
-		System.out.println("Girokontonummer: "+ Sparkasse.girokontoErstellen(ich));
-		System.out.println("Girokontonummer: "+ Sparkasse.girokontoErstellen(ich));
-		System.out.println("Sparbuchkontonummer: "+Sparkasse.sparbuchErstellen(ich));
+		System.out.println("Girokontonummer: "+ Sparkasse.kontoErstellen(girokontoFabrik,ich));
+		System.out.println("Girokontonummer: "+ Sparkasse.kontoErstellen(girokontoFabrik,ich));
+		System.out.println("Sparbuchkontonummer: "+Sparkasse.kontoErstellen(sparbuchFabrik,ich));
 		System.out.println("------------------------------------------------------");
 
 		System.out.println("bisher vergebene Kontonummern:");

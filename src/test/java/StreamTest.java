@@ -1,5 +1,6 @@
 import bankprojekt.verarbeitung.Bank;
 import bankprojekt.verarbeitung.GesperrtException;
+import bankprojekt.verarbeitung.GirokontoFabrik;
 import bankprojekt.verarbeitung.Kunde;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class StreamTest {
     Bank bank;
+    GirokontoFabrik girokontoFabrik;
     Long gk1,gk2,gk3,gk4,gk5;
     Kunde anna = new Kunde("Anna", "Anna", "hier", LocalDate.now());
     Kunde berta = new Kunde("Berta", "Berta", "hier", LocalDate.now());
@@ -23,11 +25,12 @@ public class StreamTest {
     @BeforeEach
     public void setUp(){
         bank = new Bank(1);
-        gk1 = bank.girokontoErstellen(anna);
-        gk2 = bank.girokontoErstellen(berta);
-        gk3 = bank.girokontoErstellen(chris);
-        gk4 = bank.girokontoErstellen(anton);
-        gk5 = bank.girokontoErstellen(adalbert);
+        girokontoFabrik = new GirokontoFabrik();
+        gk1 = bank.kontoErstellen(girokontoFabrik,anna);
+        gk2 = bank.kontoErstellen(girokontoFabrik,berta);
+        gk3 = bank.kontoErstellen(girokontoFabrik,chris);
+        gk4 = bank.kontoErstellen(girokontoFabrik,anton);
+        gk5 = bank.kontoErstellen(girokontoFabrik,adalbert);
     }
 
     @AfterEach

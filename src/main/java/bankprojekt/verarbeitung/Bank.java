@@ -1,5 +1,7 @@
 package bankprojekt.verarbeitung;
 
+import org.mockito.Mockito;
+
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,7 +32,11 @@ public class Bank implements Bankfaehig, Cloneable, Serializable {
         if (inhaber==null){
             throw new IllegalArgumentException("Inhaber darf nicht Null sein!");
         }
-        return kontofabrik.kontoErzeugen(inhaber,this);
+        long kontonummer = groesteKontoNummer;
+        konten.put(kontonummer, kontofabrik.kontoErzeugen(inhaber,kontonummer));
+        kontoNummern.add(kontonummer);
+        groesteKontoNummer+=1;
+        return kontonummer;
     }
 
     @Override
