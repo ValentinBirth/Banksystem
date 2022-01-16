@@ -1,9 +1,6 @@
 package bankprojekt.verarbeitung;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.beans.property.ReadOnlyDoubleWrapper;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.*;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -43,12 +40,12 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * Wenn das Konto gesperrt ist (gesperrt = true), können keine Aktionen daran mehr vorgenommen werden,
 	 * die zum Schaden des Kontoinhabers wären (abheben, Inhaberwechsel)
 	 */
-	private transient BooleanProperty gesperrt;
+	private transient SimpleBooleanProperty gesperrt;
 
 	/**
 	 * Gibt an, ob der Kontostand Positiv ist
 	 */
-	private transient  BooleanProperty kontostandImPlus;
+	private transient  SimpleBooleanProperty kontostandImPlus;
 
 	/**
 	 * Aktiendepot des Kontos
@@ -153,7 +150,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * liefert ein BooleanProperty für gesperrt zurück
 	 * @return BooleanProperty
 	 */
-	public BooleanProperty gesperrtProperty(){
+	public SimpleBooleanProperty gesperrtProperty(){
 		return this.gesperrt;
 	}
 
@@ -170,7 +167,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * lifert eine BooleanProperty für kontostandImPlus zurück
 	 * @return  BooleanProperty
 	 */
-	public BooleanProperty kontostandImPlusProperty(){
+	public SimpleBooleanProperty kontostandImPlusProperty(){
 		return this.kontostandImPlus;
 	}
 
