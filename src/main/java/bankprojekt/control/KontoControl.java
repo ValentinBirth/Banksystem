@@ -6,6 +6,7 @@ import bankprojekt.verarbeitung.Girokonto;
 import bankprojekt.verarbeitung.Kunde;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -47,10 +48,8 @@ public class KontoControl extends Application {
      * Getter für Kontostandproterty
      * @return Kontostandproperty als SimpleStringProperty mit Vorzeichen
      */
-    public SimpleStringProperty kontostandProperty() {
-        SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
-        simpleStringProperty.bind(girokonto.kontostandProperty().asString("%+,f"));
-        return simpleStringProperty;
+    public ReadOnlyDoubleProperty kontostandProperty() {
+        return girokonto.kontostandProperty();
     }
 
     /**
@@ -58,7 +57,7 @@ public class KontoControl extends Application {
      * @return Kontonummer als String
      */
     public String getKontonummer() {
-        return  Long.toString(girokonto.getKontonummer());
+        return  girokonto.getKontonummerFormatiert();
     }
 
     /**

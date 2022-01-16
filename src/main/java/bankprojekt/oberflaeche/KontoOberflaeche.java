@@ -104,7 +104,7 @@ public class KontoOberflaeche extends BorderPane {
 		stand.setFont(new Font("Sans Serif", 15));
 		GridPane.setHalignment(stand, HPos.RIGHT);
 		anzeige.add(stand, 1, 1);
-		stand.textProperty().bind(kontoControl.kontostandProperty());
+		stand.textProperty().bind(kontoControl.kontostandProperty().asString("%+,f"));
 
 		txtGesperrt = new Text("Gesperrt: ");
 		txtGesperrt.setFont(new Font("Sans Serif", 15));
