@@ -1,5 +1,10 @@
 package bankprojekt.verarbeitung;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -27,7 +32,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	/**
 	 * der aktuelle Kontostand
 	 */
-	private double kontostand;
+	private transient ReadOnlyDoubleWrapper kontostand;
 
 	/**
 	 * Art der Währung mit der das Konto arbeitet
@@ -38,7 +43,12 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * Wenn das Konto gesperrt ist (gesperrt = true), können keine Aktionen daran mehr vorgenommen werden,
 	 * die zum Schaden des Kontoinhabers wären (abheben, Inhaberwechsel)
 	 */
-	private boolean gesperrt;
+	private transient BooleanProperty gesperrt;
+
+	/**
+	 * Gibt an, ob der Kontostand Positiv ist
+	 */
+	private transient  BooleanProperty kontostandImPlus;
 
 	/**
 	 * Aktiendepot des Kontos
@@ -55,7 +65,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 		if (kinh == null) {
 			throw new IllegalArgumentException("Der Inhaber darf nicht null sein!");
 		}
-		if(this.gesperrt) {
+		if(isGesperrt()) {
 			throw new GesperrtException(this.nummer);
 		}
 		this.inhaber = kinh;
@@ -83,7 +93,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * @param kontostand neuer Kontostand
 	 */
 	protected void setKontostand(double kontostand) {
-		this.kontostand = kontostand;
+		this.kontostand.set(kontostand);
 	}
 
 	/**
@@ -91,7 +101,18 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * @return   double
 	 */
 	public final double getKontostand() {
-		return kontostand;
+		if (this.kontostand != null){
+			return this.kontostand.get();
+		}
+		return 0;
+	}
+
+	/**
+	 * liefert ein Read Only Property für den Kontostand
+	 * @return ReadOnlyDoubleProperty
+	 */
+	public ReadOnlyDoubleProperty kontostandProperty(){
+		return this.kontostand.getReadOnlyProperty();
 	}
 
 
@@ -107,14 +128,14 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * sperrt das Konto, Aktionen zum Schaden des Benutzers sind nicht mehr möglich.
 	 */
 	public final void sperren() {
-		this.gesperrt = true;
+		this.gesperrt.set(true);
 	}
 
 	/**
 	 * entsperrt das Konto, alle Kontoaktionen sind wieder möglich.
 	 */
 	public final void entsperren() {
-		this.gesperrt = false;
+		this.gesperrt.set(false);
 	}
 
 	/**
@@ -122,7 +143,35 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * @return true, wenn das Konto gesperrt ist
 	 */
 	public final boolean isGesperrt() {
-		return gesperrt;
+		if (this.gesperrt != null){
+			return this.gesperrt.get();
+		}
+		return false;
+	}
+
+	/**
+	 * liefert ein BooleanProperty für gesperrt zurück
+	 * @return BooleanProperty
+	 */
+	public BooleanProperty gesperrtProperty(){
+		return this.gesperrt;
+	}
+
+	/**
+	 * liefert zurück ob der Kontostand Positiv ist
+	 * @return true wenn Kontostand >=0 ist, sonst false
+	 */
+	public boolean isKontostandImPlus(){
+		this.kontostandImPlus.set(getKontostand() >= 0);
+		return this.kontostandImPlus.get();
+	}
+
+	/**
+	 * lifert eine BooleanProperty für kontostandImPlus zurück
+	 * @return  BooleanProperty
+	 */
+	public BooleanProperty kontostandImPlusProperty(){
+		return this.kontostandImPlus;
 	}
 
 	/**
@@ -131,7 +180,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 */
 	public final String getGesperrtText()
 	{
-		if (this.gesperrt)
+		if (isGesperrt())
 		{
 			return "GESPERRT";
 		}
@@ -163,8 +212,9 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 		}
 		this.inhaber = inhaber;
 		this.nummer = kontonummer;
-		this.kontostand = 0;
-		this.gesperrt = false;
+		this.kontostand = new ReadOnlyDoubleWrapper(0);
+		this.gesperrt = new SimpleBooleanProperty(false);
+		this.kontostandImPlus = new SimpleBooleanProperty(true);
 		this.aktienDepot = new HashMap<>();
 	}
 
@@ -176,33 +226,30 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 	 * @return gesamtpreis des kaufes
 	 */
 	public Future<Double> kaufauftrag(Aktie a, int anzahl, double hoechstpreis){
-		Callable<Double> aktieKaufen = new Callable<Double>() {
-			@Override
-			public Double call(){
-				Lock aktienLock = a.getAktienLock();
-				Condition kursVeraendert = a.getKursVerändert();
-				aktienLock.lock();
-				while (a.getKurs() > hoechstpreis) {
-					try {
-						kursVeraendert.await();
-					} catch (InterruptedException e) {
-					}
+		Callable<Double> aktieKaufen = () -> {
+			Lock aktienLock = a.getAktienLock();
+			Condition kursVeraendert = a.getKursVerändert();
+			aktienLock.lock();
+			while (a.getKurs() > hoechstpreis) {
+				try {
+					kursVeraendert.await();
+				} catch (InterruptedException e) {
 				}
-				double preis = anzahl*a.getKurs();
-				if (kontostand >= preis) {
-					kontostand -= preis;
-					if (aktienDepot.containsKey(a)){
-						aktienDepot.put(a,aktienDepot.get(a)+anzahl);
-					}else{
-						aktienDepot.put(a,anzahl);
-					}
-				}else {
-					preis = 0;
-				}
-				aktienLock.unlock();
-				return preis;
 			}
-	};
+			double preis = anzahl*a.getKurs();
+			if (getKontostand() >= preis) {
+				setKontostand(getKontostand()-preis);
+				if (aktienDepot.containsKey(a)){
+					aktienDepot.put(a,aktienDepot.get(a)+anzahl);
+				}else{
+					aktienDepot.put(a,anzahl);
+				}
+			}else {
+				preis = 0;
+			}
+			aktienLock.unlock();
+			return preis;
+		};
 		ScheduledExecutorService aktienkauf = Executors.newSingleThreadScheduledExecutor();
 		return aktienkauf.schedule(aktieKaufen,0,TimeUnit.SECONDS);
 	}
@@ -235,7 +282,7 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 						}
 					}
 					double preis = aktienDepot.get(a)*a.getKurs();
-					kontostand+=preis;
+					setKontostand(getKontostand()+preis);
 					aktienDepot.remove(a);
 					aktienLock.unlock();
 					return preis;
@@ -400,15 +447,15 @@ public abstract class Konto implements Comparable<Konto>, Serializable {
 			rs = stmt.executeQuery("SELECT * FROM konto WHERE kontonr="+this.nummer);
 			if (rs.next())
 			{
-				rs.updateDouble("kontostand", this.kontostand);
-				rs.updateBoolean("gesperrt", this.gesperrt);
+				rs.updateDouble("kontostand", this.kontostand.get());
+				rs.updateBoolean("gesperrt", this.gesperrt.get());
 				rs.updateRow();
 			}
 			else
 			{
 				rs.moveToInsertRow();
-				rs.updateDouble("kontostand", this.kontostand);
-				rs.updateBoolean("gesperrt", this.gesperrt);
+				rs.updateDouble("kontostand", this.kontostand.get());
+				rs.updateBoolean("gesperrt", this.gesperrt.get());
 				rs.updateLong("kontonr", this.nummer);
 				int nummer = this.inhaber.speichern();
 				rs.updateInt("kunde", nummer);

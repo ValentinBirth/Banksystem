@@ -1,12 +1,12 @@
+bankprojekt\verarbeitung\SparbuchFabrik.class
+Kundenmenge.class
+bankprojekt\control\KontoControl.class
+bankprojekt\verarbeitung\Bankfaehig.class
 AktienMainTest.class
 bankprojekt\verarbeitung\Konto$1.class
 bankprojekt\verarbeitung\Bank.class
-bankprojekt\verarbeitung\SparbuchFabrik.class
 BankenMainTest.class
-Kundenmenge.class
 bankprojekt\verarbeitung\Kontofabrik.class
-bankprojekt\verarbeitung\Konto$2.class
-bankprojekt\verarbeitung\Bankfaehig.class
 bankprojekt\verarbeitung\Aktie.class
 KontenMainTest.class
 bankprojekt\verarbeitung\MockKontoFabrik.class
