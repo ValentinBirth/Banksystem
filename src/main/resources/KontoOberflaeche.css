@@ -1,0 +1,43 @@
+.text-field{
+    -fx-font: 10pt "SansSerif Regular";
+}
+.text-area{
+    -fx-font: 10pt "SansSerif Regular";
+}
+.button{
+    -fx-font: 10pt "SansSerif Regular";
+}
+#adresse{
+    -fx-font: 10pt "SansSerif Regular";
+}
+#gesperrt{
+    -fx-font: 10pt "SansSerif Regular";
+}
+#konto{
+    -fx-font: 10pt "SansSerif Regular";
+}
+#stand{
+    -fx-font: 10pt "SansSerif Regular";
+}
+#ueberschrift{
+    -fx-font: bold 15pt "SansSerif Regular";
+}
+#txtNummer{
+    -fx-font: 10pt "SansSerif Regular";
+}
+#txtGesperrt{
+    -fx-font: 10pt "SansSerif Regular";
+}
+#txtStand{
+    -fx-font: 10pt "SansSerif Regular";
+}
+#nummer{
+    -fx-font: 10pt "SansSerif Regular";
+}
+#meldung{
+    -fx-font: 10pt "SansSerif Regular";
+    -fx-fill: red;
+}
+#txtAdresse{
+    -fx-font: 10pt "SansSerif Regular";
+}

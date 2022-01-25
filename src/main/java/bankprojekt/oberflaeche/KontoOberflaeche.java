@@ -25,6 +25,7 @@ import javafx.scene.control.TextField;
  * @author Doro
  *
  */
+@Deprecated
 public class KontoOberflaeche extends BorderPane {
 	private Text ueberschrift;
 	private GridPane anzeige;
@@ -95,7 +96,7 @@ public class KontoOberflaeche extends BorderPane {
 		nummer.setFont(new Font("Sans Serif", 15));
 		GridPane.setHalignment(nummer, HPos.RIGHT);
 		anzeige.add(nummer, 1, 0);
-		nummer.setText(kontoControl.getKontonummer());
+		//nummer.setText(kontoControl.getKontonummer());
 		
 		txtStand = new Text("Kontostand:");
 		txtStand.setFont(new Font("Sans Serif", 15));
@@ -104,7 +105,7 @@ public class KontoOberflaeche extends BorderPane {
 		stand.setFont(new Font("Sans Serif", 15));
 		GridPane.setHalignment(stand, HPos.RIGHT);
 		anzeige.add(stand, 1, 1);
-		stand.textProperty().bind(kontoControl.kontostandProperty().asString("%+,f"));
+		//stand.textProperty().bind(kontoControl.kontostandProperty().asString("%+,f"));
 
 		txtGesperrt = new Text("Gesperrt: ");
 		txtGesperrt.setFont(new Font("Sans Serif", 15));
@@ -112,7 +113,7 @@ public class KontoOberflaeche extends BorderPane {
 		gesperrt = new CheckBox();
 		GridPane.setHalignment(gesperrt, HPos.RIGHT);
 		anzeige.add(gesperrt, 1, 2);
-		gesperrt.selectedProperty().bindBidirectional(kontoControl.gesperrtProperty());
+		//gesperrt.selectedProperty().bindBidirectional(kontoControl.gesperrtProperty());
 		
 		txtAdresse = new Text("Adresse: ");
 		txtAdresse.setFont(new Font("Sans Serif", 15));
@@ -122,7 +123,7 @@ public class KontoOberflaeche extends BorderPane {
 		adresse.setPrefRowCount(2);
 		GridPane.setHalignment(adresse, HPos.RIGHT);
 		anzeige.add(adresse, 1, 3);
-		adresse.textProperty().bindBidirectional(kontoControl.adresseProperty());
+		//adresse.textProperty().bindBidirectional(kontoControl.adresseProperty());
 		
 		meldung = new Text("Willkommen lieber Benutzer");
 		meldung.setFont(new Font("Sans Serif", 15));
@@ -140,19 +141,19 @@ public class KontoOberflaeche extends BorderPane {
 		einzahlen = new Button("Einzahlen");
 		aktionen.getChildren().add(einzahlen);
 		einzahlen.addEventHandler(ActionEvent.ACTION, e -> {
-			if(validate(betrag.getText())){
-				kontoControl.einzahlen(convertToDouble(betrag.getText()));
+			try {
+				//kontoControl.einzahlen(Double.parseDouble(betrag.getText()));
+			}catch (NumberFormatException exception){
+				meldung.setText("Betrag muss eine Dezimalzahl sein!");
 			}
 		});
 		abheben = new Button("Abheben");
 		aktionen.getChildren().add(abheben);
 		abheben.addEventHandler(ActionEvent.ACTION, e -> {
-			if (validate(betrag.getText())){
-				if(!kontoControl.abheben(convertToDouble(betrag.getText()))){
-					meldung.setText("Abheben fehlgeschlagen");
-				}else{
-					meldung.setText("Aktion erfolgreich");
-				}
+			try {
+				//kontoControl.abheben(Double.parseDouble(betrag.getText()));
+			}catch (NumberFormatException exception){
+				meldung.setText("Betrag muss eine Dezimalzahl sein!");
 			}
 		});
 		
@@ -160,35 +161,10 @@ public class KontoOberflaeche extends BorderPane {
 	}
 
 	/**
-	 * Prüft, ob ein String eine Dezimalzahl ist
-	 * @param text String
-	 * @return true, wenn String eine Dezimalzahl ist, sonst false
+	 * Zeigt eine Meldung an
+	 * @param text Meldung
 	 */
-	private boolean validate(String text){
-		try {
-			double test = Double.parseDouble(text);
-			if (Double.isNaN(test)){
-				meldung.setText("Betrag muss eine Dezimalzahl sein!");
-				return false;
-			}else {
-				meldung.setText("Aktion erfolgreich");
-				return true;
-			}
-		}catch (IllegalArgumentException e) {
-			meldung.setText("Betrag muss eine Dezimalzahl sein!");
-			return false;
-		}
-	}
-
-	/**
-	 * Konvertiert ein String zum Double
-	 * @param text String
-	 * @return String als Double oder 0, wenn String nicht Konvertierbar ist
-	 */
-	private double convertToDouble(String text){
-		if (validate(text)){
-			return Double.parseDouble(text);
-		}
-		return 0.00;
+	public void meldungAnzeigen(String text){
+		meldung.setText(text);
 	}
 }
